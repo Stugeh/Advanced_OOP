@@ -1,0 +1,21 @@
+Neliömatriisi on matriisi, jossa on yhtä monta riviä kuin pylvästäkin. esim.
+[[1,2,3]
+[4,5,6]
+[7,8,9]]
+
+Yhteen- ja vähennyslaskuissa lasketaan samalla paikalla olevat arvot yhteen.
+
+Yhteenlasku:
+[[4,6]   [[3,6]   [[4+3, 6+6]   [[10, 9]
+ [9,3]] + [3,1]] = [9+3, 3+1]] = [12, 4]]
+
+Vähennyslasku:
+[[4,6]   [[3,6]   [[4-3, 6-6]   [[1, 0]
+ [9,3]] - [3,1]] = [9-3, 3-1]] = [6, 2]]
+ 
+ 
+Kertolaskussa taas kerrotaan toisen matriisin rivit toisen pylväillä seuraavasti
+
+Kertolasku:
+[[4,6]   [[3,6]   	[[4*3 + 6*3, 4*6 + 6*1]   [[30, 30]
+ [9,3]] * [3,1]] =   [9*3 + 3*3, 9*6 + 3*1] =  [36, 57]
