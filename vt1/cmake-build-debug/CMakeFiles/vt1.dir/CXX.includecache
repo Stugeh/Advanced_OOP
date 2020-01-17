@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt1/isSqrMatrix.cpp
+sstream
+-
+isSqrMatrix.h
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt1/isSqrMatrix.h
+
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt1/isSqrMatrix.h
+
