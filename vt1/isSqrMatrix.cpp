@@ -13,6 +13,7 @@ bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& pre
     }
     openBracket += 1;
     bracketCount += 1;
+    //loop until either a fail condition is found or a closing bracket is found.
     for(;;){
         input >> num;
         if (!input.good()) {
@@ -21,6 +22,8 @@ bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& pre
         numCount += 1;
 
         input >> c;
+        //if the next character is anything but ']' it jumps back to the beginning of the loop and reads the next number.
+        //technically any char can be used as a separator.
         if (input.good() && c == ']') {
             bracketCount -= 1;
             if (prevCount != numCount && prevCount != 0 ){
@@ -38,6 +41,7 @@ bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& pre
             }else if(c == '['){
                 openBracket += 1;
             }
+            //if end of string is reached before the brackets are closed its not a square matrix
             else if (!input.good()){
                 input >> num;
                 if(!input.good()){
@@ -65,9 +69,12 @@ bool isSquareMatrix(const string& matrix){
     }
     bracketCount += 1;
     bool isSq = true;
+    //loops through each set of brackets. The loop ends when the amount of opening and closing brackets is the same
+    //or the matrix isn't a square matrix.
     while (bracketCount>0 && isSq){
         isSq = bracketLoop(input, bracketCount, numCount, prevCount, openBracket);
     }
+    //to be a square matrix number of rows have to match collumns.
     if (openBracket != prevCount){
         isSq = false;
     }
