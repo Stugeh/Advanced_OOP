@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt1/catch.hpp">
+			<Option target="vt1"/>
+		</Unit>
 		<Unit filename="D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt1/isSqrMatrix.cpp">
 			<Option target="vt1"/>
 		</Unit>
