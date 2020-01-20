@@ -4,7 +4,6 @@
 using namespace std;
 
 bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& prevCount, int& openBracket) {
-    bool loop = true;
     int num;
     char c;
 
