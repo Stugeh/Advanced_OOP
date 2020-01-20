@@ -48,7 +48,7 @@ bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& pre
     }
 }
 
-bool isSqrMatrix(const string& matrix){
+bool isSquareMatrix(const string& matrix){
     /*
      * bracketCount keeps track that all brackets close.
      * numCount is used to check if the current bracket has an equal amount of values to the previous one.
