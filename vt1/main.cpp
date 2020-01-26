@@ -1,8 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include <iostream>
 #include "catch.hpp"
 #include "isSqrMatrix.h"
-using namespace std;
 
 TEST_CASE("test 1","[correct]"){
     CHECK(isSquareMatrix("[[2,3][1,2]]"));
@@ -23,5 +21,5 @@ TEST_CASE("test 2","[incorrect]"){
     CHECK_FALSE(isSquareMatrix("[[2,3,1][1,2]]"));
     CHECK_FALSE(isSquareMatrix("[[2,3][1,2,2]]"));
     CHECK_FALSE(isSquareMatrix("[[2,3][1,2][1,3]"));
+    CHECK_FALSE(isSquareMatrix("[[2,3][1,2]]xx"));
 }
-

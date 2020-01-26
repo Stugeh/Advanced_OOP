@@ -29,8 +29,10 @@ bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& pre
             if (prevCount != numCount && prevCount != 0 ){
                 return false;
             }
+
             prevCount = numCount;
             numCount=0;
+
             input >> c;
             if (input.good() && c==']'){
                 bracketCount -= 1;
@@ -41,7 +43,7 @@ bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& pre
             }else if(c == '['){
                 openBracket += 1;
             }
-            //if end of string is reached before the brackets are closed its not a square matrix
+            //if end of string is reached before the brackets are closed its not a square matrix.
             else if (!input.good()){
                 input >> num;
                 if(!input.good()){
@@ -74,7 +76,7 @@ bool isSquareMatrix(const string& matrix){
     while (bracketCount>0 && isSq){
         isSq = bracketLoop(input, bracketCount, numCount, prevCount, openBracket);
     }
-    //to be a square matrix number of rows have to match collumns.
+    //to be a square matrix number of rows have to match columns.
     if (openBracket != prevCount){
         isSq = false;
     }
