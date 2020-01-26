@@ -1,3 +1,4 @@
+#include <sstream>
 #include "SquareMatrix.h"
 
 SquareMatrix::SquareMatrix() {}
@@ -13,26 +14,35 @@ SquareMatrix::SquareMatrix(const SquareMatrix &) {
 }
 
 SquareMatrix &SquareMatrix::operator+=(const SquareMatrix &matrix) {
-    return <#initializer#>;
+    e11 += matrix.e11;
+    e12 += matrix.e12;
+    e21 += matrix.e21;
+    e22 += matrix.e22;
+    return *this;
 }
 
 SquareMatrix &SquareMatrix::operator-=(const SquareMatrix &matrix) {
-    return <#initializer#>;
+    e11 -= matrix.e11;
+    e12 -= matrix.e12;
+    e21 -= matrix.e21;
+    e22 -= matrix.e22;
+    return *this;
 }
 
 SquareMatrix &SquareMatrix::operator*=(const SquareMatrix &matrix) {
-    return <#initializer#>;
+    e11 *= matrix.e11;
+    e12 *= matrix.e21;
+    e21 *= matrix.e12;
+    e22 *= matrix.e22;
+    return *this;
 }
 
-std::ostream &operator<<(std::ostream &os, const SquareMatrix &element) {
-    return <#initializer#>;
-}
-
-std::string SquareMatrix::print(std::ostream &os) {
-    return str;
-}
+//std::string SquareMatrix::print(std::ostream &os) {
+//    return;
+//}
 
 std::string SquareMatrix::toString() {
+
     return std::__cxx11::string();
 }
 
@@ -40,4 +50,3 @@ std::string SquareMatrix::toString() {
 SquareMatrix::~SquareMatrix() = default;
 
 
-<
