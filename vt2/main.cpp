@@ -8,8 +8,19 @@
 //////////////////////////////////////////////////////////
 
 using namespace std;
-
-
+TEST_CASE("TEST 1","things") {
+    SquareMatrix matrix;
+    SquareMatrix newMatrix(matrix);
+    IntElement element;
+    IntElement element2(1);
+    element = element - element2;
+    element.setVal(13);
+    stringstream stringstream1;
+    matrix.print(stringstream1);
+    char c;
+    stringstream1 >> c;
+    cout << c;
+}
 TEST_CASE("TEST 2","ADDITION"){
     SquareMatrix matrix(123, 2, 3, 1 );
     SquareMatrix matrix2(5, 6, 9, 11 );
