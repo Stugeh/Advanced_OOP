@@ -3,18 +3,35 @@
 #include  <string>
 #include <ostream>
 
+////////////////////////////////////////////////////////////
+///IntElement header.                                  ///
+/////////////////////////////////////////////////////////
+
+
+/**
+ * Creates objects from ints
+ */
 class IntElement {
 
 private:
     int val;
 
 public:
+    /**
+     * default constructor
+     */
     IntElement():IntElement{0}{};
+
+    /**
+     * constructor that sets val to the parameter passed to it.
+     * @param v
+     */
     IntElement(int v):val{v}{};
     virtual ~IntElement();
 
     int getVal() const;
     void setVal(int val);
+
     IntElement& operator+=(const IntElement& i);
     IntElement& operator-=(const IntElement& i);
     IntElement& operator*=(const IntElement& i);

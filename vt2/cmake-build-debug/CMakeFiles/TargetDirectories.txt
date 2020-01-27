@@ -1,0 +1,3 @@
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt2/cmake-build-debug/CMakeFiles/vt2.dir
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt2/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
