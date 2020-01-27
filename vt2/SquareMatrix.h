@@ -4,6 +4,7 @@
 
 #include "IntElement.h"
 #include <string>
+#include <ostream>
 
 class SquareMatrix {
 private:
@@ -14,11 +15,14 @@ public:
     SquareMatrix(const IntElement &e11, const IntElement &e12, const IntElement &e21, const IntElement &e22);
     SquareMatrix(const SquareMatrix&);
     virtual ~SquareMatrix();
+    void print(std::ostream &os);
+    std::string toString();
     SquareMatrix& operator+=(const SquareMatrix& matrix);
     SquareMatrix& operator-=(const SquareMatrix& matrix);
     SquareMatrix& operator*=(const SquareMatrix& matrix);
-    std::string print(std::ostream &os);
-    std::string toString();
+    friend std::ostream &operator<<(std::ostream &os, const SquareMatrix &matrix);
 };
+
+std::ostream& operator<<(std::ostream&, const SquareMatrix &matrix);
 
 #endif //VT2_SQUAREMATRIX_H
