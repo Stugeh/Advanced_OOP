@@ -36,9 +36,9 @@ public:
 
 };
 
-SquareMatrix operator+(const SquareMatrix&, const SquareMatrix&),
-SquareMatrix operator-(const SquareMatrix&, const SquareMatrix&),
-SquareMatrix operator*(const SquareMatrix&, const SquareMatrix&),
+SquareMatrix operator+(const SquareMatrix&, const SquareMatrix&);
+SquareMatrix operator-(const SquareMatrix&, const SquareMatrix&);
+SquareMatrix operator*(const SquareMatrix&, const SquareMatrix&);
 std::ostream& operator<<(std::ostream&, const SquareMatrix &matrix);
 
 #endif //VT2_SQUAREMATRIX_H
