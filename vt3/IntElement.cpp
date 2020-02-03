@@ -103,7 +103,11 @@ int IntElement::getVal() const {
 void IntElement::setVal(int val) {
     IntElement::val = val;
 }
-
+ /**
+  * Compares two values and returns boolean
+  * @param i
+  * @return
+  */
 bool IntElement::operator==(const IntElement &i) const {
     return val == i.getVal();
 }
