@@ -105,8 +105,5 @@ void IntElement::setVal(int val) {
 }
 
 bool IntElement::operator==(const IntElement &i) {
-    if(val == i.getVal()){
-        return true;
-    }
-    return false;
+    return val == i.getVal();
 }

@@ -37,6 +37,7 @@ public:
     int getN() const;
 };
 
+bool isSquareMatrix(const std::string& matrix);
 SquareMatrix operator+(const SquareMatrix&, const SquareMatrix&);
 SquareMatrix operator-(const SquareMatrix&, const SquareMatrix&);
 SquareMatrix operator*(const SquareMatrix&, const SquareMatrix&);
