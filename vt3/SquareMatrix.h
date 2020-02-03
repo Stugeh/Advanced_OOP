@@ -38,9 +38,9 @@ public:
 };
 
 bool isSquareMatrix(const std::string& matrix);
-SquareMatrix operator+(const SquareMatrix&, const SquareMatrix&);
-SquareMatrix operator-(const SquareMatrix&, const SquareMatrix&);
-SquareMatrix operator*(const SquareMatrix&, const SquareMatrix&);
+SquareMatrix operator+(SquareMatrix const&,  SquareMatrix const&);
+SquareMatrix operator-( SquareMatrix const&,  SquareMatrix const&);
+SquareMatrix operator*( SquareMatrix const&,  SquareMatrix const&);
 std::ostream& operator<<(std::ostream&, const SquareMatrix &matrix);
 
 #endif //VT2_SQUAREMATRIX_H
