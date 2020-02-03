@@ -31,7 +31,7 @@ public:
     SquareMatrix& operator+=(const SquareMatrix& matrix);
     SquareMatrix& operator-=(const SquareMatrix& matrix);
     SquareMatrix& operator*=(const SquareMatrix& matrix);
-    bool operator==(const SquareMatrix&);
+    bool operator==(const SquareMatrix&) const;
     friend std::ostream &operator<<(std::ostream &os, const SquareMatrix &matrix);
 
     const std::vector<std::vector<IntElement>> &getElements() const;

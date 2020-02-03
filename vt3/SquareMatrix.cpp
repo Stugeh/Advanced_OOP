@@ -270,7 +270,7 @@ SquareMatrix &SquareMatrix::operator=(const SquareMatrix &matrix){
     n = matrix.getN();
     return *this;
 }
-bool SquareMatrix::operator==(const SquareMatrix &matrix){
+bool SquareMatrix::operator==(const SquareMatrix &matrix)const {
     if(n != matrix.getN()){
         return false;
     }

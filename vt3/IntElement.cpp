@@ -104,6 +104,6 @@ void IntElement::setVal(int val) {
     IntElement::val = val;
 }
 
-bool IntElement::operator==(const IntElement &i) {
+bool IntElement::operator==(const IntElement &i) const {
     return val == i.getVal();
 }

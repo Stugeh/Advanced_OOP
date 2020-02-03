@@ -35,7 +35,7 @@ public:
     IntElement& operator+=(const IntElement& i);
     IntElement& operator-=(const IntElement& i);
     IntElement& operator*=(const IntElement& i);
-    bool operator==(const IntElement& i);
+    bool operator==(const IntElement& i) const;
     friend std::ostream &operator<<(std::ostream &os, const IntElement &element);
 };
 
