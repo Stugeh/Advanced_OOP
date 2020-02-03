@@ -19,6 +19,7 @@ private:
 public:
     SquareMatrix();
     SquareMatrix(const std::string&);
+    SquareMatrix(std::vector<std::vector<IntElement>>, int);
     SquareMatrix(const SquareMatrix&);
     virtual ~SquareMatrix();
 
@@ -38,6 +39,7 @@ public:
 };
 
 bool isSquareMatrix(const std::string& matrix);
+
 SquareMatrix operator+(SquareMatrix const&,  SquareMatrix const&);
 SquareMatrix operator-( SquareMatrix const&,  SquareMatrix const&);
 SquareMatrix operator*( SquareMatrix const&,  SquareMatrix const&);

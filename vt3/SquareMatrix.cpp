@@ -1,5 +1,6 @@
 #include <sstream>
 #include "SquareMatrix.h"
+#include <utility>
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -55,6 +56,10 @@ SquareMatrix::SquareMatrix(const string& str) {
     }
 }
 
+SquareMatrix::SquareMatrix(std::vector<std::vector<IntElement>> outerVector, int aN){
+    elements = std::move(outerVector);
+    n = aN;
+}
 /**
  * Creates a duplicate matrix object.
  * @param matrix
@@ -278,10 +283,73 @@ bool SquareMatrix::operator==(const SquareMatrix &matrix){
     }
     return true;
 }
-
 const vector<std::vector<IntElement>> &SquareMatrix::getElements() const {
     return elements;
 }
 int SquareMatrix::getN() const {
     return n;
+}
+
+SquareMatrix operator+(SquareMatrix const &matrix1,  SquareMatrix const &matrix2){
+    if(matrix1.getN() == matrix2.getN() && matrix1.getN() > 0){
+        vector<vector<IntElement>> outerVector;
+        int n = matrix1.getN();
+        for(int i = 0; i < n; i++){
+            vector<IntElement> innerVector;
+            for(int j = 0; j < n; j++){
+                IntElement newElement(matrix1.getElements()[i][j] + matrix2.getElements()[i][j]);
+                innerVector.push_back(newElement);
+            }
+            outerVector.push_back(innerVector);
+        }
+        SquareMatrix result(outerVector, outerVector[0].size());
+        return result;
+    }
+    else{
+        cout << "Couldn't add matrices" << endl;
+        return SquareMatrix();
+    }
+}
+SquareMatrix operator-( SquareMatrix const &matrix1,  SquareMatrix const &matrix2){
+    if(matrix1.getN() == matrix2.getN() && matrix1.getN() > 0){
+        vector<vector<IntElement>> outerVector;
+        int n = matrix1.getN();
+        for(int i = 0; i < n; i++){
+            vector<IntElement> innerVector;
+            for(int j = 0; j < n; j++){
+                IntElement newElement(matrix1.getElements()[i][j] - matrix2.getElements()[i][j]);
+                innerVector.push_back(newElement);
+            }
+            outerVector.push_back(innerVector);
+        }
+        SquareMatrix result(outerVector, outerVector[0].size());
+        return result;
+    }
+    else{
+        cout << "Couldn't add matrices" << endl;
+        return SquareMatrix();
+    }
+}
+SquareMatrix operator*( SquareMatrix const &matrix1,  SquareMatrix const &matrix2){
+    if(matrix1.getN() == matrix2.getN() && matrix1.getN() > 0){
+        vector<vector<IntElement>> outerVector;
+        int n = matrix1.getN();
+        for(int i = 0; i < n; i++){
+            vector<IntElement> innerVector;
+            for(int j = 0; j < n; j++){
+                IntElement sum(0);
+                for(int k = 0; k < n; k++){
+                    sum = sum + matrix1.getElements()[i][k] * matrix2.getElements()[k][j];
+                }
+                innerVector.push_back(sum);
+            }
+            outerVector.push_back(innerVector);
+        }
+        SquareMatrix result(outerVector, outerVector[0].size());
+        return result;
+    }
+    else{
+        cout << "Couldn't multiply matrices" << endl;
+        return SquareMatrix();
+    }
 }

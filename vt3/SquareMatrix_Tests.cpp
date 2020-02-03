@@ -10,20 +10,6 @@
 using namespace std;
 
 
-/*int main(){
-    SquareMatrix mx("[[6,8,8][12,12,12][6,8,8]]");
-    SquareMatrix mx2("[[2,2][2,2]]");
-    mx += mx2;
-    cout << mx << endl;
-    mx.transpose();
-    cout << mx << endl;
-}*/
-
-
-
-
-
-
 TEST_CASE("TEST 1","things"){
     SquareMatrix invalidMatrix("[2,3,3][2,3,3]]");
     CHECK(invalidMatrix.toString() == "[[]]");
@@ -71,6 +57,11 @@ TEST_CASE("TEST 2","ADDITION"){
 
     mx21 += mx31;
     CHECK(mx21.toString() == "[[8,10][14,14]]");
+
+    SquareMatrix mx1234("[[1,2][3,4]]");
+    SquareMatrix mx4321("[[-1,-2][-3,-4]]");
+    SquareMatrix addition = mx1234 + mx4321;
+    CHECK(addition.toString() == "[[0,0][0,0]]");
 }
 
 TEST_CASE("TEST 3","SUBTRACTION"){
@@ -87,6 +78,11 @@ TEST_CASE("TEST 3","SUBTRACTION"){
 
     mx21 -= mx31;
     CHECK(mx21.toString() == "[[0,0][0,0]]");
+
+    SquareMatrix mx1234("[[1,2][3,4]]");
+    SquareMatrix mx4321("[[1,2][3,4]]");
+    SquareMatrix subtraction = mx1234 - mx4321;
+    CHECK(subtraction.toString() == "[[0,0][0,0]]");
 }
 TEST_CASE("TEST 4","MULTIPLICATION"){
     SquareMatrix mx31("[[1,2,3][4,5,6][7,8,9]]");
@@ -97,6 +93,11 @@ TEST_CASE("TEST 4","MULTIPLICATION"){
     SquareMatrix mx21("[[6,8][12,12]]");
     mx21 *= mx31;
     CHECK(mx21.toString() == "[[6,8][12,12]]");
+
+    SquareMatrix mx1234("[[1,2][3,4]]");
+    SquareMatrix mx4321("[[1,2][3,4]]");
+    SquareMatrix multi = mx1234 * mx4321;
+    CHECK(multi.toString() == "[[7,10][15,22]]");
 }
 TEST_CASE("TEST 5", "TRANSPOSITION"){
     SquareMatrix mx("[[1,2][3,4]]");
