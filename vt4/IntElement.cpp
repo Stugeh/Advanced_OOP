@@ -111,3 +111,7 @@ void IntElement::setVal(int val) {
 bool IntElement::operator==(const IntElement &i) const {
     return val == i.getVal();
 }
+
+IntElement *IntElement::clone() const {
+    return new IntElement(*this);
+}

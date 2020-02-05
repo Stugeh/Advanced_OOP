@@ -14,9 +14,10 @@ using namespace std;
  * default constructor. Creates an empty matrix.
  */
 SquareMatrix::SquareMatrix(){
-    vector<IntElement> currentInnerVector;
-    currentInnerVector.emplace_back(0);
-    elements.push_back(currentInnerVector);
+    n = 1;
+    vector<std::unique_ptr<IntElement>> currentInnerVector;
+    currentInnerVector.push_back(std::unique_ptr<IntElement>(new IntElement()));
+    elements.push_back(std::move(currentInnerVector));
 }
 
 /**
@@ -33,12 +34,12 @@ SquareMatrix::SquareMatrix(const string& str) {
         stringstream input(str);
         input >> c;
         while(input.good()){
-            vector<IntElement> currentInnerVector;
+            vector<std::unique_ptr<IntElement>> currentInnerVector;
             input >> c;
             while (c != ']'){
                 input >> num;
                 if (input.good()){
-                    currentInnerVector.emplace_back(num);
+                    currentInnerVector.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
                     if(i == 0){
                         n += 1;
                     }
@@ -46,7 +47,7 @@ SquareMatrix::SquareMatrix(const string& str) {
                 input >> c;
             }
             i +=1;
-            elements.push_back(currentInnerVector);
+            elements.push_back(std::move(currentInnerVector));
         }
         cout << "created a square matrix object" << endl;
     }
@@ -57,23 +58,25 @@ SquareMatrix::SquareMatrix(const string& str) {
 }
 
 /**
- * Creates a brand new object from a nested vector and the number of rows/columns.
- * Used when using the + - and * operators to calculate vectors.
- * @param outerVector
- * @param aN
- */
-SquareMatrix::SquareMatrix(std::vector<std::vector<IntElement>> outerVector, int aN){
-    elements = std::move(outerVector);
-    n = aN;
-}
-
-/**
  * Creates a duplicate matrix object.
  * @param matrix
  */
 SquareMatrix::SquareMatrix(const SquareMatrix& matrix) {
-    elements = matrix.getElements();
-    n = matrix.getN();
+    n = matrix.n;
+    for(auto& row : matrix.elements){
+        std::vector<std::unique_ptr<IntElement>>newRow;
+        for(auto& elem : row){
+            newRow.push_back(std::unique_ptr<IntElement>(elem->clone()));
+        }
+        elements.push_back(std::move(newRow));
+    }
+}
+
+/**
+ * move constructor
+ */
+SquareMatrix::SquareMatrix(SquareMatrix&& matrix) {
+
 }
 
 /**
@@ -88,6 +91,7 @@ SquareMatrix::~SquareMatrix() = default;
  * @return
  */
 SquareMatrix SquareMatrix::transpose() {
+   //kopio arvosta
     SquareMatrix copy = SquareMatrix(*this);
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
@@ -219,7 +223,7 @@ bool isSquareMatrix(const string& matrix){
  */
 SquareMatrix &SquareMatrix::operator+=(const SquareMatrix &matrix) {
     //check dimensions are correct.
-    if(n == matrix.getN() && n > 0){
+    if(n == matrix.n && n > 0){
         for(int i = 0; i < n; i++){
             for(int j = 0; j < elements[i].size(); j++){
                 elements[i][j] += matrix.elements[i][j];
@@ -239,7 +243,7 @@ SquareMatrix &SquareMatrix::operator+=(const SquareMatrix &matrix) {
  * @return current SquareMatrix instance
  */
 SquareMatrix &SquareMatrix::operator-=(const SquareMatrix &matrix) {
-    if(n == matrix.getN() && n > 0){
+    if(n == matrix.n && n > 0){
         for(int i = 0; i < n; i++){
             for(int j = 0; j < elements[i].size(); j++){
                 elements[i][j] -= matrix.elements[i][j];
@@ -258,14 +262,14 @@ SquareMatrix &SquareMatrix::operator-=(const SquareMatrix &matrix) {
  * @return current SquareMatrix instance
  */
 SquareMatrix &SquareMatrix::operator*=(const SquareMatrix &matrix) {
-    if(n == matrix.getN() && n > 0){
+    if(n == matrix.n && n > 0){
         vector<vector<IntElement>> outerVector;
         for(int i = 0; i < n; i++){
             vector<IntElement> sumVector;
             for(int j = 0; j < n; j++){
                 IntElement sum(0);
                 for(int k = 0; k < n; k++){
-                    sum = sum + elements[i][k] * matrix.getElements()[k][j];
+                    sum = sum + elements[i][k] * matrix.elements[k][j];
                 }
                 sumVector.push_back(sum);
             }
@@ -310,8 +314,8 @@ ostream &operator<<(ostream &os, const SquareMatrix &matrix) {
  * @return The updated instance.
  */
 SquareMatrix &SquareMatrix::operator=(const SquareMatrix &matrix){
-    elements = matrix.getElements();
-    n = matrix.getN();
+
+    n = matrix.n;
     return *this;
 }
 
@@ -336,20 +340,11 @@ bool SquareMatrix::operator==(const SquareMatrix &matrix)const {
 
 /**
  *
- * @return The elements vector of the instance
- */
-const vector<std::vector<IntElement>> &SquareMatrix::getElements() const {
-    return elements;
-}
-
-/**
- *
  * @return the n of the instance
  */
 int SquareMatrix::getN() const {
     return n;
 }
-
 
 
 /**
@@ -442,4 +437,5 @@ SquareMatrix operator*( SquareMatrix const &matrix1,  SquareMatrix const &matrix
         return SquareMatrix();
     }
 }
+
 

@@ -17,15 +17,7 @@ private:
     int val;
 
 public:
-    /**
-     * default constructor
-     */
     IntElement():IntElement{0}{};
-
-    /**
-     * constructor that sets val to the parameter passed to it.
-     * @param v
-     */
     IntElement(int v):val{v}{};
     virtual ~IntElement();
 
@@ -37,6 +29,7 @@ public:
     IntElement& operator*=(const IntElement& i);
     bool operator==(const IntElement& i) const;
     friend std::ostream &operator<<(std::ostream &os, const IntElement &element);
+    IntElement* clone() const;
 };
 
 IntElement operator+(const IntElement&, const IntElement&);
