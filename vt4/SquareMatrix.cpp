@@ -76,7 +76,8 @@ SquareMatrix::SquareMatrix(const SquareMatrix& matrix) {
  * move constructor
  */
 SquareMatrix::SquareMatrix(SquareMatrix&& matrix) {
-
+    elements = std::move(matrix.elements);
+    n = matrix.n;
 }
 
 /**
@@ -319,6 +320,10 @@ SquareMatrix &SquareMatrix::operator=(const SquareMatrix &matrix){
     return *this;
 }
 
+SquareMatrix &SquareMatrix::operator=(const SquareMatrix &&) {
+    return <#initializer#>;
+}
+
 /**
  * Compares 2 matrices by iterating through the elements vectors.
  * @param matrix
@@ -345,7 +350,6 @@ bool SquareMatrix::operator==(const SquareMatrix &matrix)const {
 int SquareMatrix::getN() const {
     return n;
 }
-
 
 /**
  * Adds 2 matrices together and returns a new object instead of modifying the old ones.
