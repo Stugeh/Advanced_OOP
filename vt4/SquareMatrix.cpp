@@ -3,7 +3,7 @@
 #include <utility>
 #include <vector>
 #include <iostream>
-using namespace std;
+
 
 ////////////////////////////////////////////////////////////
 /// Constructs n*n matrices out of IntElements.         ///
@@ -15,7 +15,7 @@ using namespace std;
  */
 SquareMatrix::SquareMatrix(){
     n = 1;
-    vector<std::unique_ptr<IntElement>> currentInnerVector;
+    std::vector<std::unique_ptr<IntElement>> currentInnerVector;
     currentInnerVector.push_back(std::unique_ptr<IntElement>(new IntElement()));
     elements.push_back(std::move(currentInnerVector));
 }
@@ -24,17 +24,17 @@ SquareMatrix::SquareMatrix(){
  * Basic constructor. Creates matrix object from a string.
  * @param str
  */
-SquareMatrix::SquareMatrix(const string& str) {
+SquareMatrix::SquareMatrix(const std::string& str) {
     char c;
     int num;
     int i = 0;
     //checks if the received string has the correct syntax by utilizing the methods created
     //for an earlier assignment.
     if(isSquareMatrix(str)){
-        stringstream input(str);
+        std::stringstream input(str);
         input >> c;
         while(input.good()){
-            vector<std::unique_ptr<IntElement>> currentInnerVector;
+            std::vector<std::unique_ptr<IntElement>> currentInnerVector;
             input >> c;
             while (c != ']'){
                 input >> num;
@@ -49,12 +49,17 @@ SquareMatrix::SquareMatrix(const string& str) {
             i +=1;
             elements.push_back(std::move(currentInnerVector));
         }
-        cout << "created a square matrix object" << endl;
+        std::cout << "created a square matrix object" << std::endl;
     }
     else{
-        cout << "input wasn't a Square Matrix.\nInitializing empty SquareMatrixObject" << endl;
+        std::cout << "input wasn't a Square Matrix.\nInitializing empty SquareMatrixObject" << std::endl;
         SquareMatrix();
     }
+}
+
+SquareMatrix::SquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>> elems, int pN) {
+    elements = elems;
+    n = pN;
 }
 
 /**
@@ -92,11 +97,11 @@ SquareMatrix::~SquareMatrix() = default;
  * @return
  */
 SquareMatrix SquareMatrix::transpose() {
-   //kopio arvosta
+    //kopio arvosta
     SquareMatrix copy = SquareMatrix(*this);
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
-            elements[i][j] = copy.elements[j][i];
+            //elements[i][j] = copy.elements[j][i];
         }
     }
     return *this;
@@ -106,7 +111,7 @@ SquareMatrix SquareMatrix::transpose() {
  * Used to make the received ostream to read the instance.
  * @param os
  */
-void SquareMatrix::print(ostream &os) {
+void SquareMatrix::print(std::ostream &os) {
     os << *this;
 }
 
@@ -114,9 +119,9 @@ void SquareMatrix::print(ostream &os) {
  * outputs the instance as a string
  * @return mtrx
  */
-string SquareMatrix::toString() {
-    ostringstream oss;
-    string mtrx;
+std::string SquareMatrix::toString()const {
+    std::ostringstream oss;
+    std::string mtrx;
     oss << *this;
     mtrx = oss.str();
     return mtrx;
@@ -131,7 +136,7 @@ string SquareMatrix::toString() {
  * @param openBracket       //used to check that the amount of rows is the same as numbers on every row.
  * @return
  */
-bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& prevCount, int& openBracket) {
+bool bracketLoop(std::stringstream &input, int &bracketCount, int& numCount, int& prevCount, int& openBracket) {
     int num;
     char c;
 
@@ -187,14 +192,14 @@ bool bracketLoop(stringstream &input, int &bracketCount, int& numCount, int& pre
  * @param matrix the matrix represented as a string
  * @return
  */
-bool isSquareMatrix(const string& matrix){
+bool isSquareMatrix(const std::string& matrix){
     /*
      * bracketCount keeps track that all brackets close.
      * numCount is used to check if the current bracket has an equal amount of values to the previous one.
      * prevCount is the amount of values in the previous brackets.
      * openBrackets is used to check if the number of bracket is the same as the number of values in each bracket.
      */
-    stringstream input(matrix);
+    std::stringstream input(matrix);
     char c;
     int bracketCount=0, numCount=0, prevCount=0, openBracket=0;
 
@@ -225,15 +230,24 @@ bool isSquareMatrix(const string& matrix){
 SquareMatrix &SquareMatrix::operator+=(const SquareMatrix &matrix) {
     //check dimensions are correct.
     if(n == matrix.n && n > 0){
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < elements[i].size(); j++){
-                elements[i][j] += matrix.elements[i][j];
+        int i = 0;
+        std::vector<std::vector<std::unique_ptr<IntElement>>>sumMatrix;
+        for(auto& row : elements){
+            std::vector<std::unique_ptr<IntElement>>newRow;
+            int j = 0;
+            for(auto& elem : row){
+                IntElement value = *elem + *matrix.elements[i][j];
+                newRow.push_back(std::unique_ptr<IntElement>(new IntElement(value)));
+                j++;
             }
+            sumMatrix.push_back(std::move(newRow));
+            i++;
         }
+        std::move(sumMatrix);
     }
     else{
         //dimensions weren't correct
-        cout << "Couldn't add matrices" << endl;
+        std::cout << "Couldn't add matrices" << std::endl;
     }
     return *this;
 }
@@ -244,15 +258,26 @@ SquareMatrix &SquareMatrix::operator+=(const SquareMatrix &matrix) {
  * @return current SquareMatrix instance
  */
 SquareMatrix &SquareMatrix::operator-=(const SquareMatrix &matrix) {
+    //check dimensions are correct.
     if(n == matrix.n && n > 0){
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < elements[i].size(); j++){
-                elements[i][j] -= matrix.elements[i][j];
+        int i = 0;
+        std::vector<std::vector<std::unique_ptr<IntElement>>>sumMatrix;
+        for(auto& row : elements){
+            int j = 0;
+            std::vector<std::unique_ptr<IntElement>>newRow;
+            for(auto& elem : row){
+                IntElement value = *elem - *matrix.elements[i][j];
+                newRow.push_back(std::unique_ptr<IntElement>(new IntElement(value)));
+                j++;
             }
+            sumMatrix.push_back(std::move(newRow));
+            i++;
         }
+        elements = std::move(sumMatrix);
     }
     else{
-        cout << "Couldn't subtract matrices" << endl;
+        //dimensions weren't correct
+        std::cout << "Couldn't add matrices" << std::endl;
     }
     return *this;
 }
@@ -263,25 +288,42 @@ SquareMatrix &SquareMatrix::operator-=(const SquareMatrix &matrix) {
  * @return current SquareMatrix instance
  */
 SquareMatrix &SquareMatrix::operator*=(const SquareMatrix &matrix) {
-    if(n == matrix.n && n > 0){
-        vector<vector<IntElement>> outerVector;
+    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
+    this->transpose();
+    int i = 0;
+    for(auto& leftRow : matrix.elements){
+        std::vector<std::unique_ptr<IntElement>> newSumRow;
+        int j = 0;
+        for(auto& rightRow : elements){
+            IntElement sum(0);
+            for(auto& elem : rightRow){
+                sum = sum + *elem->clone() * *leftRow[j];
+            }
+            newSumRow.push_back(std::unique_ptr<IntElement>(new IntElement(sum)));
+        }
+        sumMatrix.push_back(newSumRow);
+    }
+    /*
+       if(n == matrix.n && n > 0){
+        std::vector<std::vector<std::unique_ptr<IntElement>>> outerVector;
         for(int i = 0; i < n; i++){
-            vector<IntElement> sumVector;
+            std::vector<std::unique_ptr<IntElement>> newRow;
             for(int j = 0; j < n; j++){
                 IntElement sum(0);
                 for(int k = 0; k < n; k++){
-                    sum = sum + elements[i][k] * matrix.elements[k][j];
+                    sum = sum + *elements[i][k]->clone() * *matrix.elements[k][j]->clone();
                 }
-                sumVector.push_back(sum);
+                newRow.push_back(std::unique_ptr<IntElement>(new IntElement(sum)));
             }
-            outerVector.push_back(sumVector);
+            outerVector.push_back(std::move(newRow));
         }
-        elements = outerVector;
+        elements = std::move(outerVector);
     }
     else{
-        cout << "Couldn't multiply matrices" << endl;
+        std::cout << "Couldn't multiply matrices" << std::endl;
     }
     return *this;
+     */
 }
 
 /**
@@ -292,20 +334,16 @@ SquareMatrix &SquareMatrix::operator*=(const SquareMatrix &matrix) {
  * @param matrix
  * @return os
  */
-ostream &operator<<(ostream &os, const SquareMatrix &matrix) {
-    os << "[[";
-    for(int i = 0; i < matrix.getN(); i++){
-        if( i>0 ){
-            os << "][";
+std::ostream &operator<<(std::ostream &os, const SquareMatrix &matrix) {
+    os << "[";
+    for(auto& row : matrix.elements){
+        os << "[";
+        for(auto& elem : row){
+            os << *elem;
         }
-        for(int j = 0; j < matrix.getN(); j++){
-            if (j > 0 && j < matrix.getN()){
-                os << ",";
-            }
-            os << matrix.elements[i].at(j);
-        }
+        os << "]";
     }
-    os << "]]";
+    os << "]";
     return os;
 }
 
@@ -315,40 +353,41 @@ ostream &operator<<(ostream &os, const SquareMatrix &matrix) {
  * @return The updated instance.
  */
 SquareMatrix &SquareMatrix::operator=(const SquareMatrix &matrix){
-
+    int i = 0;
+    for(auto& row : elements){
+        int j = 0;
+        for(auto& elem : row){
+            *elem = *matrix.elements[i][j];
+            j++;
+        }
+        i++;
+    }
     n = matrix.n;
     return *this;
 }
 
-SquareMatrix &SquareMatrix::operator=(const SquareMatrix &&) {
-    return <#initializer#>;
+
+SquareMatrix &SquareMatrix::operator=(const SquareMatrix&& matrix) {
+    int i = 0;
+    for(auto& row : elements){
+        int j = 0;
+        for(auto& elem : row){
+            *elem = *matrix.elements[i][j];
+            j++;
+        }
+        i++;
+    }
+    n = matrix.n;
+    return *this;
 }
 
 /**
- * Compares 2 matrices by iterating through the elements vectors.
+ * returns false if n or the string representation of the object aren't equal
  * @param matrix
  * @return boolean
  */
 bool SquareMatrix::operator==(const SquareMatrix &matrix)const {
-    if(n != matrix.getN()){
-        return false;
-    }
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-            if(elements[i][j].getVal() != matrix.getElements()[i][j].getVal()){
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-/**
- *
- * @return the n of the instance
- */
-int SquareMatrix::getN() const {
-    return n;
+    return !(n != matrix.n || this->toString() != matrix.toString());
 }
 
 /**
@@ -359,24 +398,27 @@ int SquareMatrix::getN() const {
  */
 SquareMatrix operator+(SquareMatrix const &matrix1,  SquareMatrix const &matrix2){
     //check dimensions
-    if(matrix1.getN() == matrix2.getN() && matrix1.getN() > 0){
-        vector<vector<IntElement>> outerVector;
-        int n = matrix1.getN();
+    if(matrix1.n == matrix2.n && matrix1.n > 0){
+        std::vector<std::vector<std::unique_ptr<IntElement>>> outerVector;
         //Inner loop adds values to an innerVector that then gets added to the
         //outerVector in the outer loop
-        for(int i = 0; i < n; i++){
-            vector<IntElement> innerVector;
-            for(int j = 0; j < n; j++){
-                IntElement newElement(matrix1.getElements()[i][j] + matrix2.getElements()[i][j]);
-                innerVector.push_back(newElement);
+        int i = 0;
+        for(auto& row : matrix1.elements){
+            std::vector<std::unique_ptr<IntElement>>innerVector;
+            int j = 0;
+            for(auto& elem : row){
+                IntElement sum = *elem + *matrix2.elements[i][j];
+                innerVector.push_back(std::unique_ptr<IntElement>(new IntElement(sum)));
+                j++;
             }
-            outerVector.push_back(innerVector);
+            i++;
+            outerVector.push_back(std::move(innerVector));
         }
         SquareMatrix result(outerVector, outerVector[0].size());
         return result;
     }
     else{
-        cout << "Couldn't add matrices" << endl;
+        std::cout << "Couldn't add matrices" << std::endl;
         return SquareMatrix();
     }
 }
@@ -386,60 +428,58 @@ SquareMatrix operator+(SquareMatrix const &matrix1,  SquareMatrix const &matrix2
  * @param matrix1
  * @param matrix2
  * @return new SquareMatrix object.
- */
-SquareMatrix operator-( SquareMatrix const &matrix1,  SquareMatrix const &matrix2){
-    //Check dimensions
-    if(matrix1.getN() == matrix2.getN() && matrix1.getN() > 0){
-        vector<vector<IntElement>> outerVector;
-        int n = matrix1.getN();
+ **/
+SquareMatrix operator-( SquareMatrix const &matrix1,  SquareMatrix const &matrix2) {
+    //check dimensions
+    if (matrix1.n == matrix2.n && matrix1.n > 0) {
+        std::vector<std::vector<std::unique_ptr<IntElement>>> outerVector;
         //Inner loop adds values to an innerVector that then gets added to the
-        //outerVector in the outer loop
-        for(int i = 0; i < n; i++){
-            vector<IntElement> innerVector;
-            for(int j = 0; j < n; j++){
-                IntElement newElement(matrix1.getElements()[i][j] - matrix2.getElements()[i][j]);
-                innerVector.push_back(newElement);
+        //outerVector in the outer loop.
+        int i = 0;
+        for (auto &row : matrix1.elements) {
+            std::vector<std::unique_ptr<IntElement>> innerVector;
+            int j = 0;
+            for (auto &elem : row) {
+                IntElement sum = *elem - *matrix2.elements[i][j];
+                innerVector.push_back(std::unique_ptr<IntElement>(new IntElement(sum)));
+                j++;
             }
-            outerVector.push_back(innerVector);
+            i++;
+            outerVector.push_back(std::move(innerVector));
         }
         SquareMatrix result(outerVector, outerVector[0].size());
         return result;
-    }
-    else{
-        cout << "Couldn't add matrices" << endl;
+    } else {
+        std::cout << "Couldn't add matrices" << std::endl;
         return SquareMatrix();
     }
-}
 
 /**
  * Multiplies 2 matrices together and returns a new object instead of modifying the old ones.
  * @param matrix1
  * @param matrix2
  * @return new SquareMatrix object.
- */
-SquareMatrix operator*( SquareMatrix const &matrix1,  SquareMatrix const &matrix2){
-    if(matrix1.getN() == matrix2.getN() && matrix1.getN() > 0){
-        vector<vector<IntElement>> outerVector;
-        int n = matrix1.getN();
-        //performance doesn't matter, does it?
-        for(int i = 0; i < n; i++){
-            vector<IntElement> innerVector;
-            for(int j = 0; j < n; j++){
-                IntElement sum(0);
-                for(int k = 0; k < n; k++){
-                    sum = sum + matrix1.getElements()[i][k] * matrix2.getElements()[k][j];
+ * */
+SquareMatrix operator*(SquareMatrix const &matrix1, SquareMatrix const &matrix2) {
+        if (matrix1.n == matrix2.n && matrix1.n > 0) {
+            std::vector<std::vector<IntElement>> outerVector;
+            int n = matrix1.n;
+            //performance doesn't matter, does it?
+            for (int i = 0; i < n; i++) {
+                std::vector<IntElement> innerVector;
+                for (int j = 0; j < n; j++) {
+                    IntElement sum(0);
+                    for (int k = 0; k < n; k++) {
+                        sum = sum + matrix1.elements[i][k] * matrix2.elements[k][j];
+                    }
+                    innerVector.push_back(sum);
                 }
-                innerVector.push_back(sum);
+                outerVector.push_back(innerVector);
             }
-            outerVector.push_back(innerVector);
+            SquareMatrix result(outerVector, outerVector[0].size());
+            return result;
+        } else {
+            std::cout << "Couldn't multiply matrices" << std::endl;
+            return SquareMatrix();
         }
-        SquareMatrix result(outerVector, outerVector[0].size());
-        return result;
     }
-    else{
-        cout << "Couldn't multiply matrices" << endl;
-        return SquareMatrix();
-    }
-}
-
-

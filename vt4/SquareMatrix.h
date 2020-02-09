@@ -21,14 +21,14 @@ public:
     SquareMatrix();
     SquareMatrix(const std::string&);
     SquareMatrix(const SquareMatrix&);
+    SquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>>, int);
     SquareMatrix(SquareMatrix&&);
     virtual ~SquareMatrix();
 
     SquareMatrix transpose();
     void print(std::ostream &os);
-    std::string toString();
+    std::string toString()const;
 
-    int getN() const;
 
     SquareMatrix& operator=(const SquareMatrix&);
     SquareMatrix& operator=(const SquareMatrix&&);
@@ -37,6 +37,10 @@ public:
     SquareMatrix& operator*=(const SquareMatrix&);
     bool operator==(const SquareMatrix&) const;
     friend std::ostream &operator<<(std::ostream &os, const SquareMatrix &matrix);
+    friend SquareMatrix operator+(SquareMatrix const&,  SquareMatrix const&);
+    friend SquareMatrix operator-( SquareMatrix const&,  SquareMatrix const&);
+    friend SquareMatrix operator*( SquareMatrix const&,  SquareMatrix const&);
+
 };
 
 bool isSquareMatrix(const std::string& matrix);

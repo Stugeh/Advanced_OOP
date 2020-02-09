@@ -1,4 +1,4 @@
-#define CATCH_CONFIG_MAIN
+//#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "IntElement.h"
 #include "SquareMatrix.h"
@@ -9,7 +9,13 @@
 
 using namespace std;
 
+int main(){
+    SquareMatrix abc("[[6,8][12,12]]");
+    abc = SquareMatrix("[[2,2][2,2]]");
+}
 
+
+/*
 TEST_CASE("TEST 1","things"){
     SquareMatrix invalidMatrix("[2,3,3][2,3,3]]");
     CHECK(invalidMatrix.toString() == "[[]]");
@@ -104,3 +110,4 @@ TEST_CASE("TEST 5", "TRANSPOSITION"){
     mx.transpose();
     CHECK(mx.toString() == "[[1,3][2,4]]");
 }
+*/
