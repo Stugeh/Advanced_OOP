@@ -28,19 +28,19 @@ TEST_CASE("TEST 1","things"){
     ostringstream os;
     invalidMatrix.print(os);
 
-//    SquareMatrix mx21("[[6,8][12,12]]");
-//    SquareMatrix copyMx21(mx21);
-//    CHECK(copyMx21.toString() == mx21.toString());
+    SquareMatrix mx21("[[6,8][12,12]]");
+    SquareMatrix copyMx21(mx21);
+    CHECK(copyMx21.toString() == mx21.toString());
 
-    /*SquareMatrix anotherCopy;
+    SquareMatrix anotherCopy;
     anotherCopy = mx21;
     CHECK(anotherCopy.toString() == mx21.toString());
-    if(anotherCopy == mx21){
-        CHECK(true);
-    }
-    else{
-        CHECK(false);
-    }*/
+//    if(anotherCopy == mx21){
+//        CHECK(true);
+//    }
+//    else{
+//        CHECK(false);
+//    }
 
     IntElement i;
     IntElement j(3);

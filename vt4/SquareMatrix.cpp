@@ -6,7 +6,7 @@
 
 
 ////////////////////////////////////////////////////////////
-/// Constructs n*n matrices out of IntElements.         ///
+/// Constructs n*n matrices out of IntElement pointers. ///
 /// And performs calculations on them.                 ///
 /////////////////////////////////////////////////////////
 
@@ -48,10 +48,10 @@ SquareMatrix::SquareMatrix(const std::string& str) {
             }
             i +=1;
         }
-        std::cout << "created a square matrix object" << std::endl;
+        //std::cout << "created a square matrix object" << std::endl;
     }
     else{
-        std::cout << "input wasn't a Square Matrix.\nInitializing empty SquareMatrixObject" << std::endl;
+        //std::cout << "input wasn't a Square Matrix.\nInitializing empty SquareMatrixObject" << std::endl;
         SquareMatrix();
     }
 }
@@ -252,7 +252,7 @@ SquareMatrix &SquareMatrix::operator+=(const SquareMatrix &matrix) {
     }
     else{
         //dimensions weren't correct
-        std::cout << "Couldn't add matrices" << std::endl;
+        //std::cout << "Couldn't add matrices" << std::endl;
     }
     return *this;
 }
@@ -282,7 +282,7 @@ SquareMatrix &SquareMatrix::operator-=(const SquareMatrix &matrix) {
     }
     else{
         //dimensions weren't correct
-        std::cout << "Couldn't add matrices" << std::endl;
+        //std::cout << "Couldn't add matrices" << std::endl;
     }
     return *this;
 }
@@ -296,8 +296,8 @@ SquareMatrix &SquareMatrix::operator*=(const SquareMatrix &matrix) {
     if(n == matrix.n && n > 0){
         std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
         matrix.transpose();
-        std::cout << matrix << std::endl;
-        std::cout << *this << std::endl;
+        //std::cout << matrix << std::endl;
+        //std::cout << *this << std::endl;
         for(int i = 0; i < n; i++){
             std::vector<std::unique_ptr<IntElement>> newRow;
             for(int j = 0; j < n; j++){
@@ -312,7 +312,7 @@ SquareMatrix &SquareMatrix::operator*=(const SquareMatrix &matrix) {
         elements = std::move(sumMatrix);
     }
     else{
-        std::cout << "Couldn't multiply matrices" << std::endl;
+        //std::cout << "Couldn't multiply matrices" << std::endl;
     }
     return *this;
 }
@@ -349,6 +349,21 @@ std::ostream &operator<<(std::ostream &os, const SquareMatrix &matrix) {
  * @return The updated instance.
  */
 SquareMatrix &SquareMatrix::operator=(const SquareMatrix &matrix){
+    std::vector<std::vector<std::unique_ptr<IntElement>>> newMatrix;
+    for(auto& row : matrix.elements){
+        std::vector<std::unique_ptr<IntElement>> newRow;
+        for(auto& elem : row){
+            newRow.push_back(std::unique_ptr<IntElement>(new IntElement(*elem)));
+        }
+        newMatrix.push_back(std::move(newRow));
+    }
+    elements = std::move(newMatrix);
+    n = matrix.n;
+    return *this;
+}
+
+
+SquareMatrix &SquareMatrix::operator=(SquareMatrix&& matrix) {
     int i = 0;
     for(auto& row : elements){
         int j = 0;
@@ -358,13 +373,6 @@ SquareMatrix &SquareMatrix::operator=(const SquareMatrix &matrix){
         }
         i++;
     }
-    n = matrix.n;
-    return *this;
-}
-
-
-SquareMatrix &SquareMatrix::operator=(SquareMatrix&& matrix) {
-    elements = std::move(matrix.elements);
     n = matrix.n;
     return *this;
 }
@@ -406,7 +414,7 @@ SquareMatrix operator+(SquareMatrix const &matrix1,  SquareMatrix const &matrix2
         return result;
     }
     else{
-        std::cout << "Couldn't add matrices" << std::endl;
+        //std::cout << "Couldn't add matrices" << std::endl;
         return SquareMatrix();
     }
 }
@@ -429,7 +437,7 @@ SquareMatrix operator-( SquareMatrix const &matrix1,  SquareMatrix const &matrix
             int j = 0;
             for (auto &elem : row) {
                 IntElement sum = *elem - *matrix2.elements[i][j];
-                std::cout << sum << std::endl;
+                //std::cout << sum << std::endl;
                 innerVector.push_back(std::unique_ptr<IntElement>(new IntElement(sum)));
                 j++;
             }
@@ -439,7 +447,7 @@ SquareMatrix operator-( SquareMatrix const &matrix1,  SquareMatrix const &matrix
         SquareMatrix result(std::move(outerVector), matrix1.n);
         return result;
     } else {
-        std::cout << "Couldn't add matrices" << std::endl;
+        //std::cout << "Couldn't add matrices" << std::endl;
         return SquareMatrix();
     }
 }
@@ -450,13 +458,12 @@ SquareMatrix operator-( SquareMatrix const &matrix1,  SquareMatrix const &matrix
  * @param matrix2
  * @return new SquareMatrix object.
  * */
-
 SquareMatrix operator*(SquareMatrix const &matrix1, SquareMatrix const &matrix2) {
     if(matrix1.n == matrix2.n && matrix1.n > 0){
         std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
         matrix2.transpose();
-        std::cout << matrix2 << std::endl;
-        std::cout << matrix1 << std::endl;
+        //std::cout << matrix2 << std::endl;
+        //std::cout << matrix1 << std::endl;
         for(int i = 0; i < matrix1.n; i++){
             std::vector<std::unique_ptr<IntElement>> newRow;
             for(int j = 0; j < matrix1.n; j++){
@@ -472,7 +479,7 @@ SquareMatrix operator*(SquareMatrix const &matrix1, SquareMatrix const &matrix2)
         return std::move(result);
     }
     else{
-        std::cout << "Couldn't multiply matrices" << std::endl;
+        //std::cout << "Couldn't multiply matrices" << std::endl;
     }
     return SquareMatrix();
 }
