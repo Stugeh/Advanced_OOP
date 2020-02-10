@@ -25,21 +25,21 @@ public:
     SquareMatrix(SquareMatrix&&);
     virtual ~SquareMatrix();
 
-    SquareMatrix transpose();
+    SquareMatrix transpose() const;
     void print(std::ostream &os);
     std::string toString()const;
 
 
     SquareMatrix& operator=(const SquareMatrix&);
-    SquareMatrix& operator=(const SquareMatrix&&);
+    SquareMatrix& operator=(SquareMatrix&&);
     SquareMatrix& operator+=(const SquareMatrix&);
     SquareMatrix& operator-=(const SquareMatrix&);
     SquareMatrix& operator*=(const SquareMatrix&);
     bool operator==(const SquareMatrix&) const;
     friend std::ostream &operator<<(std::ostream &os, const SquareMatrix &matrix);
     friend SquareMatrix operator+(SquareMatrix const&,  SquareMatrix const&);
-    friend SquareMatrix operator-( SquareMatrix const&,  SquareMatrix const&);
-    friend SquareMatrix operator*( SquareMatrix const&,  SquareMatrix const&);
+    friend SquareMatrix operator-(SquareMatrix const&,  SquareMatrix const&);
+    friend SquareMatrix operator*(SquareMatrix const&,  SquareMatrix const&);
 
 };
 

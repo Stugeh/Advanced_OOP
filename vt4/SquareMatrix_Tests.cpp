@@ -1,4 +1,4 @@
-//#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "IntElement.h"
 #include "SquareMatrix.h"
@@ -9,25 +9,30 @@
 
 using namespace std;
 
-int main(){
-    SquareMatrix abc("[[6,8][12,12]]");
-    abc = SquareMatrix("[[2,2][2,2]]");
-}
+/*int main(){
+    SquareMatrix abc("[[6,8][12,3]]");
+
+    SquareMatrix cba("[[1,2][3,4]]");
+    cba *= abc;
+    cout << cba << endl;
+    //cout << cba << endl;
+    //cout << dbc << endl;
+}*/
 
 
-/*
+
 TEST_CASE("TEST 1","things"){
     SquareMatrix invalidMatrix("[2,3,3][2,3,3]]");
-    CHECK(invalidMatrix.toString() == "[[]]");
+    CHECK(invalidMatrix.toString() == "[]");
 
     ostringstream os;
     invalidMatrix.print(os);
 
-    SquareMatrix mx21("[[6,8][12,12]]");
-    SquareMatrix copyMx21(mx21);
-    CHECK(copyMx21.toString() == mx21.toString());
+//    SquareMatrix mx21("[[6,8][12,12]]");
+//    SquareMatrix copyMx21(mx21);
+//    CHECK(copyMx21.toString() == mx21.toString());
 
-    SquareMatrix anotherCopy;
+    /*SquareMatrix anotherCopy;
     anotherCopy = mx21;
     CHECK(anotherCopy.toString() == mx21.toString());
     if(anotherCopy == mx21){
@@ -35,7 +40,7 @@ TEST_CASE("TEST 1","things"){
     }
     else{
         CHECK(false);
-    }
+    }*/
 
     IntElement i;
     IntElement j(3);
@@ -110,4 +115,4 @@ TEST_CASE("TEST 5", "TRANSPOSITION"){
     mx.transpose();
     CHECK(mx.toString() == "[[1,3][2,4]]");
 }
-*/
+
