@@ -5,9 +5,8 @@
 
 class Greet {
 public:
-    ~Greet();
-    std::string greet() const;
+    virtual std::string greet() const = 0;
+    virtual ~Greet();
 };
-
 
 #endif //ET5_GREET_H

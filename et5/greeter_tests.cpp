@@ -1,16 +1,19 @@
-//#define CATCH_CONFIG_MAIN
-#include <iostream>
+#define CATCH_CONFIG_MAIN
+
+#include "catch.hpp"
 #include "Greeter.h"
+#include "Greet.h"
+#include "HelloGreet.h"
+#include "MoroGreet.h"
 
-/*
+
 TEST_CASE("Greeter test","should work"){
-Greeter greetings("hi");
-CHECK(greetings.sayHello() == "hi\n");
-greetings.addGreet("hello");
-CHECK(greetings.sayHello() == "hi\nhello\n" );
+    Greeter greetings(new HelloGreet());
+    CHECK(greetings.sayHello() == "Hello!\n");
+    greetings.addGreet(new MoroGreet());
+    CHECK(greetings.sayHello() == "Hello!\nMoro!\n" );
 }
-*/
 
-int main(){
-    Greeter newGreet("heyhey");
-}
+
+//int main(){
+//}

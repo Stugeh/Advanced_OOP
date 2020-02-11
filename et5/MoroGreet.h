@@ -1,14 +1,11 @@
-//
-// Created by tuukk on 11/02/2020.
-//
-
 #ifndef ET5_MOROGREET_H
 #define ET5_MOROGREET_H
 
+#include "Greet.h"
 
-class MoroGreet {
+class MoroGreet: public Greet {
 public:
-    std::string greet() const;
+    std::string greet() const override;
 };
 
 

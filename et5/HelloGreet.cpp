@@ -1,5 +1,6 @@
-//
-// Created by tuukk on 11/02/2020.
-//
-
+#include <iostream>
 #include "HelloGreet.h"
+
+std::string HelloGreet::greet() const {
+    return "Hello!";
+}

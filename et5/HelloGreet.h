@@ -6,9 +6,11 @@
 #define ET5_HELLOGREET_H
 
 
-class HelloGreet {
+#include "Greet.h"
+
+class HelloGreet: public Greet{
 public:
-    std::string greet() const;
+    std::string greet() const override;
 };
 
 
