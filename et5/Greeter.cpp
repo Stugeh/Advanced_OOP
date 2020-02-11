@@ -1,6 +1,5 @@
 #include "Greeter.h"
 
-
 /// stores g into attribute vector.
 /// \param g
 Greeter::Greeter(const std::string& g){
@@ -12,7 +11,7 @@ Greeter::Greeter(const std::string& g){
 ///Copy constructor
 ///
 Greeter::Greeter(const Greeter& other) {
-    //v = std::unique_ptr<std::string>(new std::string(other.v));
+    v = std::unique_ptr<std::string>(new Greeter(other.v));
 }
 
 ///Move constructor

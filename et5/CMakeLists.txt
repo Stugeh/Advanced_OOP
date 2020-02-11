@@ -9,4 +9,4 @@ add_executable(et5
         catch.hpp
         Greeter.cpp
         Greeter.h
-        greeter_tests.cpp)
+        greeter_tests.cpp Greet.cpp Greet.h HelloGreet.cpp HelloGreet.h MoroGreet.cpp MoroGreet.h)

@@ -3,21 +3,18 @@
 #include <string>
 #include <vector>
 #include <bits/unique_ptr.h>
+#include "Greet.h"
 
 class Greeter{
 
 private:
-    std::vector<std::string*> v;
+    std::vector<Greet*> greetings;
 
 public:
-    Greeter(const std::string&);
-    Greeter(const Greeter&);
-    Greeter(Greeter&&);
+    Greeter(Greet*);
     ~Greeter();
-    Greeter& operator=(const Greeter&);
-    Greeter& operator=(Greeter&&);
-    void addGreet(const std::string&);
-    std::string sayHello();
+    void addGreet(Greet*);
+    std::string sayHello() const;
 };
 
 #endif //ET2_GREETER_H
