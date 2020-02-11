@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Greeter.h"
 
 /// stores g into attribute vector.
@@ -26,6 +25,11 @@ std::string Greeter::sayHello()const{
         }
         str.append(elem->greet());
         firstLoop = false;
+    }
+    //I don't know why it didn't work without this on the server works
+    //fine for on my test.
+    if (str[str.length()-1] == '\n') {
+        str.erase(str.length()-1);
     }
     return str;
 }
