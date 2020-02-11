@@ -19,8 +19,13 @@ void Greeter::addGreet(Greet* greeting) {
 /// \return
 std::string Greeter::sayHello()const{
     std::string str;
+    bool firstLoop = true;
     for(auto& elem : greetings){
-        str.append(elem->greet() + "\n");
+        if (!firstLoop) {
+            str.append("\n");
+        }
+        str.append(elem->greet());
+        firstLoop = false;
     }
     return str;
 }

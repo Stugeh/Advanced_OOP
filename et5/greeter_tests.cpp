@@ -9,9 +9,9 @@
 
 TEST_CASE("Greeter test","should work"){
     Greeter greetings(new HelloGreet());
-    CHECK(greetings.sayHello() == "Hello!\n");
+    CHECK(greetings.sayHello() == "Hello!");
     greetings.addGreet(new MoroGreet());
-    CHECK(greetings.sayHello() == "Hello!\nMoro!\n" );
+    CHECK(greetings.sayHello() == "Hello!\nMoro!" );
 }
 
 
