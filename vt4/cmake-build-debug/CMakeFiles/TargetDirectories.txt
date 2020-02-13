@@ -1,3 +1,3 @@
-/mnt/d/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/d/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt4/cmake-build-debug/CMakeFiles/vt4.dir
-/mnt/d/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt4/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt4/cmake-build-debug/CMakeFiles/vt4.dir
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt4/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Programming/C++/advanced-object-oriented-programmin/ooj-2020-086/vt4/cmake-build-debug/CMakeFiles/rebuild_cache.dir

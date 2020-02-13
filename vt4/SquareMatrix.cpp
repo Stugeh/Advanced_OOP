@@ -89,8 +89,6 @@ SquareMatrix::SquareMatrix(SquareMatrix&& matrix) {
  */
 SquareMatrix::~SquareMatrix() = default;
 
-
-
 /**
  * transposes a SquareMatrix object (inverts rows and columns)
  * @return
@@ -126,10 +124,8 @@ void SquareMatrix::print(std::ostream &os) {
  */
 std::string SquareMatrix::toString()const {
     std::ostringstream oss;
-    std::string mtrx;
     oss << *this;
-    mtrx = oss.str();
-    return mtrx;
+    return oss.str();
 }
 
 /**
