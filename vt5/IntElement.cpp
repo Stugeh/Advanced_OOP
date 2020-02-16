@@ -28,9 +28,8 @@ std::string IntElement::toString() const {
     return ss.str();
 }
 
-//TODO create evaluate function
-int IntElement::evaluate(const Valuation &value) const {
-    return 0;
+int IntElement::evaluate(const Valuation &valMap) const {
+    return val;
 }
 
 IntElement &IntElement::operator+=(const IntElement &element) {

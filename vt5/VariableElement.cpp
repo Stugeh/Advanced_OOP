@@ -26,9 +26,9 @@ std::string VariableElement::toString() const {
     ss << val;
     return ss.str();
 }
-//TODO evaluate function
-int VariableElement::evaluate(const Valuation &value) const {
-    return 0;
+
+int VariableElement::evaluate(const Valuation &valMap) const {
+    return valMap.at(val);
 }
 
 bool VariableElement::operator==(const VariableElement &element) const {

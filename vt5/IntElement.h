@@ -30,7 +30,7 @@ public:
 
     std::unique_ptr<Element> clone() const override;
     std::string toString() const override;
-    int evaluate(const Valuation& val) const override;
+    int evaluate(const Valuation& valMap) const override;
 
     IntElement& operator+=(const IntElement& element);
     IntElement& operator-=(const IntElement& element);

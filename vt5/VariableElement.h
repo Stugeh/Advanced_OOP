@@ -17,6 +17,7 @@ class VariableElement: public Element{
 private:
     char val;
 
+
 public:
     VariableElement();
     VariableElement(char character);

@@ -1,11 +1,12 @@
 #include <sstream>
 #include "ConcreteSquareMatrix.h"
 #include <stdexcept>
+#include <iostream>
 
 ConcreteSquareMatrix::ConcreteSquareMatrix(){
     n = 0;
 }
-//TODO add throws
+
 ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
     char c;
     int num;
@@ -71,7 +72,6 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(std::vector<std::vector<std::unique_p
     n = pN;
 }
 
-//FIXME
 ConcreteSquareMatrix::ConcreteSquareMatrix(const ConcreteSquareMatrix &matrix) {
     n = matrix.n;
     for(const std::vector<std::unique_ptr<IntElement>>& row : matrix.elements){
@@ -118,19 +118,18 @@ ConcreteSquareMatrix &ConcreteSquareMatrix::operator=(ConcreteSquareMatrix &&mat
     return *this;
 }
 
-//FIXME
 ConcreteSquareMatrix ConcreteSquareMatrix::transpose() const {
-    std::vector<std::vector<IntElement>> newMatrix;
+    std::vector<std::vector<std::unique_ptr<IntElement>>> newMatrix;
     for(auto& row : elements){
-        std::vector<IntElement>newRow;
+        std::vector<std::unique_ptr<IntElement>>newRow;
         for(auto& elem : row){
-            //newRow.push_back(*elem->clone());
+            newRow.push_back(std::unique_ptr<IntElement>(new IntElement(elem->getVal())));
         }
-        newMatrix.push_back(newRow);
+        newMatrix.push_back(std::move(newRow));
     }
     for(int i = 0; i < n ; i++){
         for(int j = 0; j < n ; j++){
-            *elements[i][j] = newMatrix[j][i];
+            *elements[i][j] = *newMatrix[j][i];
         }
     }
     return *this;
@@ -185,16 +184,16 @@ ConcreteSquareMatrix &ConcreteSquareMatrix::operator*=(const ConcreteSquareMatri
         throw std::domain_error("Dimensions don't match");
     }
 
+    //making a copy of the passed matrix so we can safely multiply a matrix with itself.
+    ConcreteSquareMatrix matrix_copy(matrix);
+    matrix_copy.transpose();
     std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
-    matrix.transpose();
-    //std::cout << matrix << std::endl;
-    //std::cout << *this << std::endl;
     for(int i = 0; i < n; i++){
         std::vector<std::unique_ptr<IntElement>> newRow;
         for(int j = 0; j < n; j++){
             IntElement sum(0);
             for(int k = 0; k < n; k++){
-                sum = sum + *elements[k][j] * *matrix.elements[k][i];
+                sum = sum + *elements[k][j] * *matrix_copy.elements[k][i];
             }
             newRow.push_back(std::unique_ptr<IntElement>(new IntElement(sum)));
         }
@@ -259,7 +258,6 @@ ConcreteSquareMatrix operator+(ConcreteSquareMatrix const &matrix1, ConcreteSqua
     return result;
 }
 
-//FIXME
 ConcreteSquareMatrix operator-(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2) {
     if(matrix1.n != matrix2.n){
         throw std::domain_error("Dimensions don't match");
@@ -284,7 +282,6 @@ ConcreteSquareMatrix operator-(ConcreteSquareMatrix const &matrix1, ConcreteSqua
     return result;
 }
 
-//FIXME
 ConcreteSquareMatrix operator*(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2) {
     if(matrix1.n != matrix2.n){
         throw std::domain_error("Dimensions don't match");
