@@ -1,5 +1,6 @@
 #include <sstream>
 #include "ConcreteSquareMatrix.h"
+#include <stdexcept>
 
 ConcreteSquareMatrix::ConcreteSquareMatrix(){
     n = 0;
@@ -8,36 +9,75 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(){
 ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
     char c;
     int num;
-    int i = 0;
+    int rowCount = 0, elementCount = 0;
     std::stringstream input(str);
+
     input >> c;
-    while(input.good()) {
-        std::vector<std::unique_ptr<IntElement>> currentInnerVector;
+    if (c != '['){
+        throw std::invalid_argument("String doesnt start with [");
+    }
+    std::vector<std::unique_ptr<IntElement>> newRow;
+    for(;;){
         input >> c;
-        do {
-            input >> num;
-            if (input.good()) {
-                currentInnerVector.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
-                if (i == 0) {
-                    n += 1;
-                }
+        if(!input.good() && c != '[' && c != ',' && c != ']'){
+            throw std::invalid_argument("The input had a character that didnt belong in it");
+        }
+        if(c == ']' && rowCount >= elementCount){
+            if(rowCount == 0){
+                throw std::invalid_argument("Matrix closes before any integers.");
+            }
+            break;
+        }
+        if(c ==']'){
+            if(rowCount > 0){
+                elements.push_back(std::move(newRow));
+                newRow.clear();
             }
             input >> c;
-        } while (c != ']');
-        if (i < n) {
-            elements.push_back(std::move(currentInnerVector));
+            if(!input.good() && c != ']' && c != '['){
+                throw std::invalid_argument("A row closes without starting a new one or ending the string");
+            }
+            if( c == ']'){
+                break;
+            }
         }
-        i += 1;
+        if(c == '['){
+            rowCount++;
+        }
+        if(c == '[' || c == ','){
+            input >> num;
+            if(!input.good()){
+                throw std::invalid_argument("Input wasn't an integer");
+            }
+            if(rowCount == 1){
+                elementCount++;
+            }
+            newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
+        }
     }
+    input >> c;
+    if(input.peek() != EOF){
+        throw std::invalid_argument("The string has extra characters");
+    }
+    if(rowCount != elementCount){
+        throw std::invalid_argument("Input wasn't a square matrix");
+    }
+    elements.push_back(std::move(newRow));
+    n = rowCount;
+}
+
+ConcreteSquareMatrix::ConcreteSquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>> matrix, unsigned int pN){
+    elements = std::move(matrix);
+    n = pN;
 }
 
 //FIXME
 ConcreteSquareMatrix::ConcreteSquareMatrix(const ConcreteSquareMatrix &matrix) {
     n = matrix.n;
-    for(auto& row : matrix.elements){
-        std::vector<std::unique_ptr<IntElement>>newRow;
-        for(auto& elem : row){
-            //newRow.push_back(std::unique_ptr<IntElement>(elem->clone()));
+    for(const std::vector<std::unique_ptr<IntElement>>& row : matrix.elements){
+        std::vector<std::unique_ptr<IntElement>> newRow;
+        for(const std::unique_ptr<IntElement>& elem : row){
+            newRow.push_back(std::unique_ptr<IntElement>(new IntElement(elem->getVal())));
         }
         elements.push_back(std::move(newRow));
     }
@@ -96,8 +136,12 @@ ConcreteSquareMatrix ConcreteSquareMatrix::transpose() const {
     return *this;
 }
 
-//TODO add throws
+
 ConcreteSquareMatrix &ConcreteSquareMatrix::operator+=(const ConcreteSquareMatrix &matrix) {
+    if(n != matrix.n){
+        throw std::domain_error("Dimensions don't match");
+    }
+
     int i = 0;
     std::vector<std::vector<std::unique_ptr<IntElement>>>sumMatrix;
     for(auto& row : elements){
@@ -115,8 +159,10 @@ ConcreteSquareMatrix &ConcreteSquareMatrix::operator+=(const ConcreteSquareMatri
     return *this;
 }
 
-//TODO add throws
 ConcreteSquareMatrix &ConcreteSquareMatrix::operator-=(const ConcreteSquareMatrix &matrix){
+    if(n != matrix.n){
+        throw std::domain_error("Dimensions don't match");
+    }
     int i = 0;
     std::vector<std::vector<std::unique_ptr<IntElement>>>sumMatrix;
     for(auto& row : elements){
@@ -134,8 +180,11 @@ ConcreteSquareMatrix &ConcreteSquareMatrix::operator-=(const ConcreteSquareMatri
     return *this;
 }
 
-//TODO add throws
 ConcreteSquareMatrix &ConcreteSquareMatrix::operator*=(const ConcreteSquareMatrix &matrix) {
+    if(n != matrix.n){
+        throw std::domain_error("Dimensions don't match");
+    }
+
     std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
     matrix.transpose();
     //std::cout << matrix << std::endl;
@@ -152,6 +201,7 @@ ConcreteSquareMatrix &ConcreteSquareMatrix::operator*=(const ConcreteSquareMatri
         sumMatrix.push_back(std::move(newRow));
     }
     elements = std::move(sumMatrix);
+    return *this;
 }
 
 bool ConcreteSquareMatrix::operator==(const ConcreteSquareMatrix &matrix) const {
@@ -185,8 +235,11 @@ std::ostream &operator<<(std::ostream &os, const ConcreteSquareMatrix &matrix) {
     os << "]";
     return os;
 }
-//FIXME //TODO add throws
+
 ConcreteSquareMatrix operator+(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2) {
+    if(matrix1.n != matrix2.n){
+        throw std::domain_error("Dimensions don't match");
+    }
     std::vector<std::vector<std::unique_ptr<IntElement>>> outerVector;
     //Inner loop adds values to an innerVector that then gets added to the
     //outerVector in the outer loop
@@ -202,12 +255,15 @@ ConcreteSquareMatrix operator+(ConcreteSquareMatrix const &matrix1, ConcreteSqua
         i++;
         outerVector.push_back(std::move(innerVector));
     }
-    //ConcreteSquareMatrix result(std::move(outerVector), matrix1.n);
-    //return result;
+    ConcreteSquareMatrix result(std::move(outerVector), matrix1.n);
+    return result;
 }
 
-//FIXME //TODO add throws
+//FIXME
 ConcreteSquareMatrix operator-(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2) {
+    if(matrix1.n != matrix2.n){
+        throw std::domain_error("Dimensions don't match");
+    }
     std::vector<std::vector<std::unique_ptr<IntElement>>> outerVector;
     //Inner loop adds values to an innerVector that then gets added to the
     //outerVector in the outer loop.
@@ -224,12 +280,15 @@ ConcreteSquareMatrix operator-(ConcreteSquareMatrix const &matrix1, ConcreteSqua
         i++;
         outerVector.push_back(std::move(innerVector));
     }
-    //SquareMatrix result(std::move(outerVector), matrix1.n);
-    //return result;
+    ConcreteSquareMatrix result(std::move(outerVector), matrix1.n);
+    return result;
 }
 
-//FIXME //TODO add throws
+//FIXME
 ConcreteSquareMatrix operator*(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2) {
+    if(matrix1.n != matrix2.n){
+        throw std::domain_error("Dimensions don't match");
+    }
     std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
     matrix2.transpose();
     //std::cout << matrix2 << std::endl;
@@ -245,7 +304,9 @@ ConcreteSquareMatrix operator*(ConcreteSquareMatrix const &matrix1, ConcreteSqua
         }
         sumMatrix.push_back(std::move(newRow));
     }
-    //ConcreteSquareMatrix result(std::move(sumMatrix), matrix1.n);
-    //return std::move(result);
+    ConcreteSquareMatrix result(std::move(sumMatrix), matrix1.n);
+    return std::move(result);
 }
+
+
 

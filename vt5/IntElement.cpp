@@ -18,7 +18,8 @@ void IntElement::setVal(int pVal) {
 }
 
 std::unique_ptr<Element> IntElement::clone() const{
-    return std::unique_ptr<Element>(new IntElement(val));
+    int newVal = val;
+    return std::unique_ptr<IntElement>(new IntElement(newVal));
 }
 
 std::string IntElement::toString() const {
@@ -56,6 +57,12 @@ std::ostream &operator<<(std::ostream &os, const IntElement &element) {
     return os;
 }
 
+IntElement operator+(const IntElement &i, const IntElement &j) {
+    IntElement sum{i};
+    sum += j;
+    return sum;
+}
+
 IntElement operator-(const IntElement& i, const IntElement& j){
     IntElement sum{i};
     sum -= j;
@@ -67,6 +74,8 @@ IntElement operator*(const IntElement& i, const IntElement& j){
     sum *= j;
     return sum;
 }
+
+
 
 
 

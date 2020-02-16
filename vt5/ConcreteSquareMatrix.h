@@ -20,9 +20,10 @@ private:
 
 public:
     ConcreteSquareMatrix();
-    ConcreteSquareMatrix(const std::string&);
-    ConcreteSquareMatrix(const ConcreteSquareMatrix&);
-    ConcreteSquareMatrix(ConcreteSquareMatrix&&);
+    ConcreteSquareMatrix(const std::string& s_matrix);
+    ConcreteSquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>> matrix, unsigned int pN);
+    ConcreteSquareMatrix(const ConcreteSquareMatrix& matrix);
+    ConcreteSquareMatrix(ConcreteSquareMatrix&& matrix);
     virtual ~ConcreteSquareMatrix();
 
     ConcreteSquareMatrix& operator=(const ConcreteSquareMatrix&);
