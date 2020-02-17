@@ -1,24 +1,24 @@
-//#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_MAIN
 
-//#include "catch.hpp"
+#include "catch.hpp"
 #include <iostream>
 #include "ConcreteSquareMatrix.h"
 #include "SymbolicSquareMatrix.h"
 #include "Valuation.h"
 
 
-int main() {
-    ConcreteSquareMatrix aff("[[1,2][3,4]]");
-    aff.transpose();
-    std::cout << aff << std::endl;
+//int main() {
+//    ConcreteSquareMatrix aff("[[1,2][3,4]]");
+//    aff.transpose();
+//    std::cout << aff << std::endl;
+//
+//    SymbolicSquareMatrix axs("[[1,x][3,4]]");
+//    SymbolicSquareMatrix ass = std::move(axs.transpose());
+//    std::cout << ass;
+//
+//}
 
-    SymbolicSquareMatrix axs("[[1,x][3,4]]");
-    axs.transpose();
-    std::cout << axs;
 
-}
-
-/*
 TEST_CASE("MISCELLANEOUS TESTS", "MISC") {
     CHECK_THROWS(ConcreteSquareMatrix("[2,3,3][2,3,3]]"));
 
@@ -114,8 +114,8 @@ TEST_CASE("SYMBOLIC MATRIX CREATION", "[symbolic]") {
 TEST_CASE("SYMBOLIC MATRIX TRANSPOSITION", "[symbolic]") {
     SymbolicSquareMatrix axs("[[1,x][3,4]]");
     CHECK_NOTHROW(axs.transpose());
-    //axs.transpose();
-    CHECK(axs.toString() == "[[1,3][x,4]]");
+    SymbolicSquareMatrix ass = std::move(axs.transpose());
+    CHECK(ass.toString() == "[[1,3][x,4]]");
 }
 
 TEST_CASE("SYMBOLIC MATRIX VALUATION", "[symbolic]") {
@@ -135,4 +135,3 @@ TEST_CASE("SYMBOLIC MATRIX COPY", "[symbolic]"){
     CHECK(axs_copy.toString() == axs.toString());
 }
 
-*/

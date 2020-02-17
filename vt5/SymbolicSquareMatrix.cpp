@@ -125,15 +125,18 @@ SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(SymbolicSquareMatrix &&mat
     return *this;
 }
 
-//FIXME
 SymbolicSquareMatrix SymbolicSquareMatrix::transpose() const{
     SymbolicSquareMatrix newMatrix = *this;
+    SymbolicSquareMatrix anotherMatrix = *this;
+    newMatrix.elements.clear();
     for (int i = 0; i < n; i++) {
+        std::vector<std::unique_ptr<Element>>newRow;
         for (int j = 0; j < n; j++) {
-            *elements[i][j] = *newMatrix.elements[j][i];
+            newRow.push_back(std::move(anotherMatrix.elements[j][i]));
         }
+        newMatrix.elements.push_back(std::move(newRow));
     }
-    return *this;
+    return newMatrix;
 }
 
 bool SymbolicSquareMatrix::operator==(const SymbolicSquareMatrix &matrix) const {
