@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(vt5)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
 
 add_executable(
         vt5
@@ -18,4 +19,4 @@ add_executable(
         SymbolicSquareMatrix.cpp
         SymbolicSquareMatrix.h
         catch.hpp
-        )
+)

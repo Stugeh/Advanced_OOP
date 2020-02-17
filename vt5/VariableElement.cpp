@@ -1,7 +1,7 @@
 #include <sstream>
 #include "VariableElement.h"
 
-VariableElement::VariableElement():val{'A'}{}
+VariableElement::VariableElement() : val{'A'} {}
 
 VariableElement::VariableElement(char character) {
     val = character;

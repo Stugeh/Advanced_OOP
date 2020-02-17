@@ -1,8 +1,8 @@
 #include "SymbolicSquareMatrix.h"
 #include "VariableElement.h"
 #include <sstream>
+#include <iostream>
 
-//TODO THIS WHOLE CLASS
 
 SymbolicSquareMatrix::SymbolicSquareMatrix() {
     n = 0;
@@ -15,62 +15,62 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
     std::stringstream input(str);
 
     input >> c;
-    if (c != '['){
+    if (c != '[') {
         throw std::invalid_argument("String doesnt start with [");
     }
     std::vector<std::unique_ptr<Element>> newRow;
-    for(;;){
+    for (;;) {
         input >> c;
-        if(!input.good() && c != '[' && c != ',' && c != ']'){
+        if (!input.good() && c != '[' && c != ',' && c != ']') {
             throw std::invalid_argument("The input had a character that didnt belong in it");
         }
-        if(c == ']' && rowCount >= elementCount){
-            if(rowCount == 0){
+        if (c == ']' && rowCount >= elementCount) {
+            if (rowCount == 0) {
                 throw std::invalid_argument("Matrix closes before any integers.");
             }
             break;
         }
-        if(c ==']'){
-            if(rowCount > 0){
+        if (c == ']') {
+            if (rowCount > 0) {
                 elements.push_back(std::move(newRow));
                 newRow.clear();
             }
             input >> c;
-            if(!input.good() && c != ']' && c != '['){
+            if (!input.good() && c != ']' && c != '[') {
                 throw std::invalid_argument("A row closes without starting a new one or ending the string");
             }
-            if( c == ']'){
+            if (c == ']') {
                 break;
             }
         }
-        if(c == '['){
+        if (c == '[') {
             rowCount++;
         }
-        if(c == '[' || c == ','){
+        if (c == '[' || c == ',') {
             input >> num;
-            if(!input.good()){
+            if (!input.good()) {
                 input.clear();
                 input >> c;
-                if(isalpha(c)){
+                if (isalpha(c)) {
                     newRow.push_back(std::unique_ptr<VariableElement>(new VariableElement(c)));
-                }else{
+                } else {
                     throw std::invalid_argument("Input wasn't an integer or alphabet");
                 }
 
             }
-            if(rowCount == 1){
+            if (rowCount == 1) {
                 elementCount++;
             }
-            if(!isalpha(c)){
+            if (!isalpha(c)) {
                 newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
             }
         }
     }
     input >> c;
-    if(input.peek() != EOF){
+    if (input.peek() != EOF) {
         throw std::invalid_argument("The string has extra characters");
     }
-    if(rowCount != elementCount){
+    if (rowCount != elementCount) {
         throw std::invalid_argument("Input wasn't a square matrix");
     }
     elements.push_back(std::move(newRow));
@@ -80,9 +80,9 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
 
 SymbolicSquareMatrix::SymbolicSquareMatrix(const SymbolicSquareMatrix &matrix) {
     n = matrix.n;
-    for(auto& row : matrix.elements){
-        std::vector<std::unique_ptr<Element>>newRow;
-        for(auto& elem : row){
+    for (auto &row : matrix.elements) {
+        std::vector<std::unique_ptr<Element>> newRow;
+        for (auto &elem : row) {
             std::unique_ptr<Element> newElem = elem->clone();
             newRow.push_back(std::move(newElem));
         }
@@ -99,9 +99,9 @@ SymbolicSquareMatrix::~SymbolicSquareMatrix() = default;
 
 SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(const SymbolicSquareMatrix &matrix) {
     std::vector<std::vector<std::unique_ptr<Element>>> newMatrix;
-    for(auto& row : matrix.elements){
+    for (auto &row : matrix.elements) {
         std::vector<std::unique_ptr<Element>> newRow;
-        for(auto& elem : row){
+        for (auto &elem : row) {
             newRow.push_back(std::unique_ptr<Element>(elem->clone()));
         }
         newMatrix.push_back(std::move(newRow));
@@ -113,9 +113,9 @@ SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(const SymbolicSquareMatrix
 
 SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(SymbolicSquareMatrix &&matrix) {
     int i = 0;
-    for(auto& row : elements){
+    for (auto &row : elements) {
         int j = 0;
-        for(auto& elem : row){
+        for (auto &elem : row) {
             *elem = *matrix.elements[i][j];
             j++;
         }
@@ -126,18 +126,11 @@ SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(SymbolicSquareMatrix &&mat
 }
 
 //FIXME
-SymbolicSquareMatrix SymbolicSquareMatrix::transpose() const {
-    std::vector<std::vector<IntElement>> newMatrix;
-    for(auto& row : elements){
-        std::vector<IntElement>newRow;
-        for(auto& elem : row){
-            //newRow.push_back(*elem->clone());
-        }
-        newMatrix.push_back(newRow);
-    }
-    for(int i = 0; i < n ; i++){
-        for(int j = 0; j < n ; j++){
-            *elements[i][j] = newMatrix[j][i];
+SymbolicSquareMatrix SymbolicSquareMatrix::transpose() const{
+    SymbolicSquareMatrix newMatrix = *this;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            *elements[i][j] = *newMatrix.elements[j][i];
         }
     }
     return *this;
@@ -149,12 +142,12 @@ bool SymbolicSquareMatrix::operator==(const SymbolicSquareMatrix &matrix) const 
 
 std::ostream &operator<<(std::ostream &os, const SymbolicSquareMatrix &matrix) {
     os << "[";
-    for(auto& row : matrix.elements){
+    for (auto &row : matrix.elements) {
         os << "[";
-        int i=0;
-        for(auto& elem : row){
+        int i = 0;
+        for (auto &elem : row) {
             os << elem->toString();
-            if(i < matrix.n - 1){
+            if (i < matrix.n - 1) {
                 os << ",";
             }
             i++;
@@ -178,9 +171,9 @@ std::string SymbolicSquareMatrix::toString() const {
 ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation &valMap) const {
     std::vector<std::vector<std::unique_ptr<IntElement>>> newMatrix;
     int i = 0;
-    for(auto& row : elements){
+    for (auto &row : elements) {
         std::vector<std::unique_ptr<IntElement>> newRow;
-        for(auto& elem : row){
+        for (auto &elem : row) {
             int num = elem->evaluate(valMap);
             newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
         }

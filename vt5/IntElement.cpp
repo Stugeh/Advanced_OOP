@@ -1,7 +1,7 @@
 #include <sstream>
 #include "IntElement.h"
 
-IntElement::IntElement():val{0}{}
+IntElement::IntElement() : val{0} {}
 
 IntElement::IntElement(int pVal) {
     val = pVal;
@@ -17,7 +17,7 @@ void IntElement::setVal(int pVal) {
     val = pVal;
 }
 
-std::unique_ptr<Element> IntElement::clone() const{
+std::unique_ptr<Element> IntElement::clone() const {
     int newVal = val;
     return std::unique_ptr<IntElement>(new IntElement(newVal));
 }
@@ -62,13 +62,13 @@ IntElement operator+(const IntElement &i, const IntElement &j) {
     return sum;
 }
 
-IntElement operator-(const IntElement& i, const IntElement& j){
+IntElement operator-(const IntElement &i, const IntElement &j) {
     IntElement sum{i};
     sum -= j;
     return sum;
 }
 
-IntElement operator*(const IntElement& i, const IntElement& j){
+IntElement operator*(const IntElement &i, const IntElement &j) {
     IntElement sum{i};
     sum *= j;
     return sum;

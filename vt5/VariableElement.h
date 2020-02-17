@@ -12,7 +12,7 @@
 
 
 
-class VariableElement: public Element{
+class VariableElement : public Element {
 
 private:
     char val;
@@ -20,21 +20,26 @@ private:
 
 public:
     VariableElement();
+
     VariableElement(char character);
+
     virtual ~VariableElement();
 
     char getVal() const;
+
     void setVal(char character);
 
     std::unique_ptr<Element> clone() const override;
 
     std::string toString() const override;
-    int evaluate(const Valuation& value) const override;
-    bool operator==(const VariableElement& element) const;
 
-    friend std::ostream &operator<<(std::ostream& os, const VariableElement& element);
+    int evaluate(const Valuation &value) const override;
+
+    bool operator==(const VariableElement &element) const;
+
+    friend std::ostream &operator<<(std::ostream &os, const VariableElement &element);
 };
 
-std::ostream& operator<<(std::ostream& os, const VariableElement &element);
+std::ostream &operator<<(std::ostream &os, const VariableElement &element);
 
 #endif //VT5_VARIABLEELEMENT_H
