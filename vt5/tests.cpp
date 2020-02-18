@@ -103,6 +103,8 @@ TEST_CASE("CONCRETE MATRIX MULTIPLICATION", "[concrete]") {
     ConcreteSquareMatrix mx4321("[[1,2][3,4]]");
     ConcreteSquareMatrix multi = mx1234 * mx4321;
     CHECK(multi.toString() == "[[7,10][15,22]]");
+    CHECK(mx1234.toString() == "[[1,2][3,4]]");
+    CHECK(mx4321.toString() == "[[1,2][3,4]]");
 
     mx1234 *= mx4321;
     CHECK(mx1234.toString() == "[[7,10][15,22]]");
