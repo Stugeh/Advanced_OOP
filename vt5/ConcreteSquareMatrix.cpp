@@ -74,8 +74,7 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
     n = rowCount;
 }
 
-ConcreteSquareMatrix::ConcreteSquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>> matrix,
-                                           unsigned int pN) {
+ConcreteSquareMatrix::ConcreteSquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>> matrix, unsigned int pN) {
     elements = std::move(matrix);
     n = pN;
 }

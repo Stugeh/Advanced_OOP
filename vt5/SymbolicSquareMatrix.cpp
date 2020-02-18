@@ -9,7 +9,7 @@ SymbolicSquareMatrix::SymbolicSquareMatrix() {
 SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
     char c;
     int num;
-    int rowCount = 0, elementCount = 0;
+    int rowCount = 0, elementCount = 0, prevCount = 0;
     std::stringstream input(str);
 
     input >> c;
@@ -31,7 +31,12 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
         if (c == ']') {
             if (rowCount > 0) {
                 elements.push_back(std::move(newRow));
+                if(prevCount != 0 && elementCount != prevCount){
+                    throw std::invalid_argument("Uneven rows");
+                }
                 newRow.clear();
+                prevCount = elementCount;
+                elementCount = 0;
             }
             input >> c;
             if (!input.good() && c != ']' && c != '[') {
@@ -50,6 +55,7 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
                 input.clear();
                 input >> c;
                 if (isalpha(c)) {
+                    elementCount++;
                     newRow.emplace_back(std::unique_ptr<Element>(new VariableElement(c)));
                     if (input.peek() != ',' && input.peek() != ']'){
                         throw std::invalid_argument("a letter must have either a , or a ] after it");
@@ -57,12 +63,9 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
                 } else {
                     throw std::invalid_argument("Input wasn't an integer or alphabet");
                 }
-
-            }
-            if (rowCount == 1) {
-                elementCount++;
             }
             if (!isalpha(c)) {
+                elementCount++;
                 newRow.emplace_back(std::unique_ptr<Element>(new IntElement(num)));
             }
         }
@@ -117,15 +120,18 @@ SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(const SymbolicSquareMatrix
 }
 
 SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(SymbolicSquareMatrix &&matrix) {
-    int i = 0;
-    for (auto &row : elements) {
-        int j = 0;
-        for (auto &elem : row) {
-            *elem = *matrix.elements[i][j];
-            j++;
-        }
-        i++;
-    }
+//    int i = 0;
+//    for (auto &row : elements) {
+//        int j = 0;
+//        for (auto &elem : row) {
+//            *elem = *matrix.elements[i][j];
+//            j++;
+//        }
+//        i++;
+//    }
+//    n = matrix.n;
+//    return *this;
+    elements = std::move(matrix.elements);
     n = matrix.n;
     return *this;
 }
