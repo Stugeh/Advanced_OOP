@@ -110,7 +110,7 @@ SymbolicSquareMatrix &SymbolicSquareMatrix::operator=(const SymbolicSquareMatrix
     for (auto &row : matrix.elements) {
         std::vector<std::unique_ptr<Element>> newRow;
         for (auto &elem : row) {
-            newRow.push_back(std::unique_ptr<Element>(elem->clone()));
+            newRow.push_back(std::move(elem->clone()));
         }
         newMatrix.push_back(std::move(newRow));
     }
