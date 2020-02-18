@@ -51,6 +51,9 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
                 input >> c;
                 if (isalpha(c)) {
                     newRow.emplace_back(std::unique_ptr<Element>(new VariableElement(c)));
+                    if (input.peek() != ',' && input.peek() != ']'){
+                        throw std::invalid_argument("a letter must have either a , or a ] after it");
+                    }
                 } else {
                     throw std::invalid_argument("Input wasn't an integer or alphabet");
                 }
@@ -64,7 +67,11 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
             }
         }
     }
+    c = 'x';
     input >> c;
+    if(c != ']'){
+        throw std::invalid_argument("The matrix doesn't close");
+    }
     if (input.peek() != EOF) {
         throw std::invalid_argument("The string has extra characters");
     }

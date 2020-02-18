@@ -10,7 +10,7 @@ ConcreteSquareMatrix::ConcreteSquareMatrix() {
 ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
     char c;
     int num;
-    int rowCount = 0, elementCount = 0;
+    int rowCount = 0, elementCount = 0, prevCount = 0;
     std::stringstream input(str);
 
     input >> c;
@@ -32,7 +32,12 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
         if (c == ']') {
             if (rowCount > 0) {
                 elements.push_back(std::move(newRow));
+                if(prevCount != 0 && elementCount != prevCount){
+                    throw std::invalid_argument("Uneven rows");
+                }
                 newRow.clear();
+                prevCount = elementCount;
+                elementCount = 0;
             }
             input >> c;
             if (!input.good() && c != ']' && c != '[') {
@@ -50,13 +55,15 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
             if (!input.good()) {
                 throw std::invalid_argument("Input wasn't an integer");
             }
-            if (rowCount == 1) {
-                elementCount++;
-            }
+            elementCount++;
             newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
         }
     }
+    c = 'x';
     input >> c;
+    if(c != ']'){
+        throw std::invalid_argument("The matrix doesn't close");
+    }
     if (input.peek() != EOF) {
         throw std::invalid_argument("The string has extra characters");
     }
@@ -106,15 +113,18 @@ ConcreteSquareMatrix &ConcreteSquareMatrix::operator=(const ConcreteSquareMatrix
 }
 
 ConcreteSquareMatrix &ConcreteSquareMatrix::operator=(ConcreteSquareMatrix &&matrix) {
-    int i = 0;
-    for (auto &row : elements) {
-        int j = 0;
-        for (auto &elem : row) {
-            *elem = *matrix.elements[i][j];
-            j++;
-        }
-        i++;
-    }
+//    int i = 0;
+//    for (auto &row : elements) {
+//        int j = 0;
+//        for (auto &elem : row) {
+//            *elem = *matrix.elements[i][j];
+//            j++;
+//        }
+//        i++;
+//    }
+//    n = matrix.n;
+//    return *this;
+    elements = std::move(matrix.elements);
     n = matrix.n;
     return *this;
 }
@@ -276,8 +286,10 @@ ConcreteSquareMatrix operator-(ConcreteSquareMatrix const &matrix1, ConcreteSqua
     return result;
 }
 
-ConcreteSquareMatrix operator*(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2) {
-    if (matrix1.n != matrix2.n) {
+ConcreteSquareMatrix operator*(ConcreteSquareMatrix const &matrix11, ConcreteSquareMatrix const &matrix22) {
+    ConcreteSquareMatrix matrix1 = matrix11;
+    ConcreteSquareMatrix matrix2 = matrix22;
+    if (matrix11.n != matrix22.n) {
         throw std::domain_error("Dimensions don't match");
     }
     std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
