@@ -3,15 +3,15 @@
 
 #include  <string>
 #include <ostream>
-#include "Element.h"
+#include <memory>
 #include "Valuation.h"
+#include "Element.h"
 
 /// VariableElement header.
 ///
 /// Creates and manages VariableElement objects that have a char as their only attribute
 
 class VariableElement : public Element {
-
 private:
     char val;
 
@@ -27,7 +27,7 @@ public:
 
     ///destructor for VariableElement
     ///
-    virtual ~VariableElement();
+    ~VariableElement() override;
 
     ///
     /// \return : the char saved in val
@@ -59,13 +59,7 @@ public:
 
     /// friend needed to access val
     ///
-    friend std::ostream &operator<<(std::ostream &os, const VariableElement &element);
+    friend std::ostream &operator<<(std::ostream &os, const Element &element);
 };
-
-/// inputs the object into ostream
-/// \param os
-/// \param element
-/// \return
-std::ostream &operator<<(std::ostream &os, const VariableElement &element);
 
 #endif //VT5_VARIABLEELEMENT_H

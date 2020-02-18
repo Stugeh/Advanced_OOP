@@ -1,8 +1,6 @@
-#include "SymbolicSquareMatrix.h"
-#include "VariableElement.h"
-#include <sstream>
 #include <iostream>
-
+#include <string>
+#include "SymbolicSquareMatrix.h"
 
 SymbolicSquareMatrix::SymbolicSquareMatrix() {
     n = 0;
@@ -52,7 +50,7 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
                 input.clear();
                 input >> c;
                 if (isalpha(c)) {
-                    newRow.push_back(std::unique_ptr<VariableElement>(new VariableElement(c)));
+                    newRow.emplace_back(std::unique_ptr<Element>(new VariableElement(c)));
                 } else {
                     throw std::invalid_argument("Input wasn't an integer or alphabet");
                 }
@@ -62,7 +60,7 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
                 elementCount++;
             }
             if (!isalpha(c)) {
-                newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
+                newRow.emplace_back(std::unique_ptr<Element>(new IntElement(num)));
             }
         }
     }

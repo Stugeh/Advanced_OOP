@@ -12,13 +12,13 @@
 
 class Element {
 public:
-    ~Element() = default;
-
     virtual std::unique_ptr<Element> clone() const = 0;
 
     virtual std::string toString() const = 0;
 
     virtual int evaluate(const Valuation &) const = 0;
+
+    virtual ~Element() = default;
 };
 
 #endif //VT5_ELEMENT_H

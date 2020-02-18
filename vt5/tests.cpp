@@ -1,11 +1,10 @@
 #define CATCH_CONFIG_MAIN
-
 #include "catch.hpp"
-#include <iostream>
+
+//#include <iostream>
 #include "ConcreteSquareMatrix.h"
 #include "SymbolicSquareMatrix.h"
 #include "Valuation.h"
-
 
 //int main() {
 //    ConcreteSquareMatrix aff("[[1,2][3,4]]");
@@ -42,6 +41,12 @@ TEST_CASE("MISCELLANEOUS TESTS", "MISC") {
         CHECK(y.getVal() == 0);
         CHECK(y.toString() == "0");
     }
+    VariableElement joo;
+    VariableElement jaa;
+    std::cout << joo.getVal();
+    joo.setVal('b');
+    CHECK_FALSE(joo == jaa);
+    SymbolicSquareMatrix aha;
 }
 
 TEST_CASE("CONCRETE MATRIX ADDITION", "[concrete]") {

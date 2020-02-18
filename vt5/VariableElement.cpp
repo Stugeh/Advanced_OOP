@@ -1,7 +1,7 @@
 #include <sstream>
 #include "VariableElement.h"
-
-VariableElement::VariableElement() : val{'A'} {}
+;
+VariableElement::VariableElement() : val{'a'} {}
 
 VariableElement::VariableElement(char character) {
     val = character;
@@ -33,9 +33,4 @@ int VariableElement::evaluate(const Valuation &valMap) const {
 
 bool VariableElement::operator==(const VariableElement &element) const {
     return val == element.val;
-}
-
-std::ostream &operator<<(std::ostream &os, const VariableElement &element) {
-    os << element.getVal();
-    return os;
 }

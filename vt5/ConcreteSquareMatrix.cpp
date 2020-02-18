@@ -1,7 +1,7 @@
 #include <sstream>
-#include "ConcreteSquareMatrix.h"
 #include <stdexcept>
 #include <iostream>
+#include "ConcreteSquareMatrix.h"
 
 ConcreteSquareMatrix::ConcreteSquareMatrix() {
     n = 0;

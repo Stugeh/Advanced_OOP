@@ -2,11 +2,10 @@
 #define VT5_CONCRETESQUAREMATRIX_H
 
 #include <vector>
-#include "IntElement.h"
 #include <string>
 #include <ostream>
 #include <memory>
-
+#include "IntElement.h"
 
 ///ConcreteSquareMatrix header.
 /// Concrete matrices only contain IntElements and can
@@ -106,10 +105,9 @@ public:
     ///
     friend ConcreteSquareMatrix operator-(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2);
 
-        /// friend needed to access private attributes of ConcreteSquareMatrix objects
-        ///
+    /// friend needed to access private attributes of ConcreteSquareMatrix objects
+    ///
     friend ConcreteSquareMatrix operator*(ConcreteSquareMatrix const &matrix1, ConcreteSquareMatrix const &matrix2);
-
 };
 
 /// Used to input sum of two matrices into a new matrix without altering the original ones

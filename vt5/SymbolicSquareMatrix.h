@@ -2,11 +2,15 @@
 #define VT5_SYMBOLICSQUAREMATRIX_H
 
 #include <vector>
-#include "IntElement.h"
-#include "ConcreteSquareMatrix.h"
 #include <string>
 #include <ostream>
+#include <sstream>
 #include <memory>
+#include "Element.h"
+#include "IntElement.h"
+#include "VariableElement.h"
+#include "ConcreteSquareMatrix.h"
+
 
 
 ///Symbolic SquareMatrix header.                       

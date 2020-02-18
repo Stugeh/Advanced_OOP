@@ -31,7 +31,7 @@ public:
 
     ///destructor for IntElement
     ///
-    virtual ~IntElement();
+    ~IntElement() override;
 
     ///
     /// \return : the int saved in val
@@ -90,7 +90,7 @@ public:
 
     /// friend needed to access val
     ///
-    friend std::ostream &operator<<(std::ostream &os, const IntElement &element);
+    friend std::ostream &operator<<(std::ostream &os, const Element &element);
 
 };
 
@@ -119,6 +119,6 @@ IntElement operator*(const IntElement &IntElement1, const IntElement &IntElement
 /// \param os
 /// \param element
 /// \return os
-std::ostream &operator<<(std::ostream &os, const IntElement &element);
+std::ostream &operator<<(std::ostream &os, const Element &element);
 
 #endif //VT5_INTELEMENT_H

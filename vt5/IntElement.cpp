@@ -51,11 +51,6 @@ bool IntElement::operator==(const IntElement &element) const {
     return val == element.val;
 }
 
-std::ostream &operator<<(std::ostream &os, const IntElement &element) {
-    os << element.getVal();
-    return os;
-}
-
 IntElement operator+(const IntElement &i, const IntElement &j) {
     IntElement sum{i};
     sum += j;
