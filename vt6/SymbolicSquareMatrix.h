@@ -9,6 +9,7 @@
 #include "Element.h"
 #include "IntElement.h"
 #include "VariableElement.h"
+#include "CompositeElement.h"
 #include "ConcreteSquareMatrix.h"
 
 

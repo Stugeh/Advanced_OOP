@@ -197,3 +197,48 @@ ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation &valMap) con
     }
     return ConcreteSquareMatrix(std::move(newMatrix), i);
 }
+//TODO
+SymbolicSquareMatrix SymbolicSquareMatrix::operator+(const SymbolicSquareMatrix &matrix) const {
+    if (n != matrix.n) {
+        throw std::domain_error("Dimensions don't match");
+    }
+
+    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
+    for (int i = 0; i < n; ++i) {
+        std::vector<std::unique_ptr<IntElement>> newRow;
+        for (int j = 0; j < n; ++j) {
+            CompositeElement newCompElem(elements[i][j], matrix.elements[i][j], /*function*/, '+');
+        }
+
+    }
+}
+//TODO
+SymbolicSquareMatrix SymbolicSquareMatrix::operator-(const SymbolicSquareMatrix &matrix) const {
+    if (n != matrix.n) {
+        throw std::domain_error("Dimensions don't match");
+    }
+
+    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
+    for (int i = 0; i < n; ++i) {
+        std::vector<std::unique_ptr<IntElement>> newRow;
+        for (int j = 0; j < n; ++j) {
+            CompositeElement newCompElem(elements[i][j], matrix.elements[i][j], /*function*/, '-');
+        }
+
+    }
+}
+//TODO
+SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const SymbolicSquareMatrix &matrix) const {
+    if (n != matrix.n) {
+        throw std::domain_error("Dimensions don't match");
+    }
+
+    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
+    for (int i = 0; i < n; ++i) {
+        std::vector<std::unique_ptr<IntElement>> newRow;
+        for (int j = 0; j < n; ++j) {
+
+        }
+
+    }
+}
