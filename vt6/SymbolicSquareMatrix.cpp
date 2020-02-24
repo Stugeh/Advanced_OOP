@@ -86,6 +86,10 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string &str) {
     n = rowCount;
 }
 
+SymbolicSquareMatrix::SymbolicSquareMatrix(std::vector<std::vector<std::unique_ptr<Element>>> &matrix, unsigned int pN) {
+    elements = std::move(matrix);
+    n= pN;
+}
 
 SymbolicSquareMatrix::SymbolicSquareMatrix(const SymbolicSquareMatrix &matrix) {
     n = matrix.n;
@@ -189,43 +193,53 @@ ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation &valMap) con
     for (auto &row : elements) {
         std::vector<std::unique_ptr<IntElement>> newRow;
         for (auto &elem : row) {
-            int num = elem->evaluate(valMap);
-            newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
+            try{
+                int num = elem->evaluate(valMap);
+                newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
+            }catch (std::out_of_range){
+                std::cout << std::endl << "element:" << std::endl << elem->toString() << std::endl << "isn't a defined value" << std::endl;
+            }
         }
         newMatrix.push_back(std::move(newRow));
         i++;
     }
     return ConcreteSquareMatrix(std::move(newMatrix), i);
 }
-//TODO
+
 SymbolicSquareMatrix SymbolicSquareMatrix::operator+(const SymbolicSquareMatrix &matrix) const {
     if (n != matrix.n) {
         throw std::domain_error("Dimensions don't match");
     }
 
-    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
+    std::vector<std::vector<std::unique_ptr<Element>>> sumMatrix;
     for (int i = 0; i < n; ++i) {
-        std::vector<std::unique_ptr<IntElement>> newRow;
+        std::vector<std::unique_ptr<Element>> newRow;
         for (int j = 0; j < n; ++j) {
-            CompositeElement newCompElem(elements[i][j], matrix.elements[i][j], /*function*/, '+');
+            std::function<int(int,int)> lambda = [](int val1, int val2){return val1 + val2;};
+            CompositeElement newCompElem(*elements[i][j], *matrix.elements[i][j], lambda, '+');
+            newRow.push_back(std::unique_ptr<Element>(new CompositeElement(newCompElem)));
         }
-
+        sumMatrix.push_back(std::move(newRow));
     }
+    return SymbolicSquareMatrix(sumMatrix, n);
 }
-//TODO
+
 SymbolicSquareMatrix SymbolicSquareMatrix::operator-(const SymbolicSquareMatrix &matrix) const {
     if (n != matrix.n) {
         throw std::domain_error("Dimensions don't match");
     }
 
-    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
+    std::vector<std::vector<std::unique_ptr<Element>>> sumMatrix;
     for (int i = 0; i < n; ++i) {
-        std::vector<std::unique_ptr<IntElement>> newRow;
+        std::vector<std::unique_ptr<Element>> newRow;
         for (int j = 0; j < n; ++j) {
-            CompositeElement newCompElem(elements[i][j], matrix.elements[i][j], /*function*/, '-');
+            std::function<int(int,int)> lambda = [](int val1, int val2){return val1 - val2;};
+            CompositeElement newCompElem(*elements[i][j], *matrix.elements[i][j], lambda, '-');
+            newRow.push_back(std::unique_ptr<Element>(new CompositeElement(newCompElem)));
         }
-
+        sumMatrix.push_back(std::move(newRow));
     }
+    return SymbolicSquareMatrix(sumMatrix, n);
 }
 //TODO
 SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const SymbolicSquareMatrix &matrix) const {
@@ -233,12 +247,77 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const SymbolicSquareMatrix 
         throw std::domain_error("Dimensions don't match");
     }
 
-    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
-    for (int i = 0; i < n; ++i) {
-        std::vector<std::unique_ptr<IntElement>> newRow;
-        for (int j = 0; j < n; ++j) {
-
+    SymbolicSquareMatrix matrix_copy = matrix.transpose();
+    std::vector<std::vector<std::unique_ptr<Element>>> productMatrix;
+    for (int i = 0; i < n; i++) {
+        std::vector<std::unique_ptr<Element>> newRow;
+        std::function<int(int, int)> lambda = [](int val1, int val2) { return val1 * val2; };
+        for (int j = 0; j < n; j++) {
+            for (int k = 0; k < n; k++) {
+                std::unique_ptr<CompositeElement> compElem(
+                        new CompositeElement(*elements[i][k], *matrix_copy.elements[j][k], lambda, '*'));
+                newRow.push_back(std::move(compElem));
+            }
+            productMatrix.push_back(std::move(newRow));
         }
-
     }
+
+    //std::vector<std::vector<std::vector<std::unique_ptr<Element>>>> vector3d;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n*n; ++j) {
+            std::vector<std::unique_ptr<Element>> newRow;
+            std::vector<std::unique_ptr<Element>> newComposition;
+            std::vector<std::vector<std::unique_ptr<Element>>> newMatrix;
+            for (int k = 0; k < n; ++k) {
+                newComposition.push_back(std::move(productMatrix[j][k]));
+            }
+
+            std::function<int(int,int)> lambda = [](int val1, int val2){return val1 + val2;};
+            if(newComposition[0] != nullptr){
+                CompositeElement newCompElem(*newComposition[0], *newComposition[1],lambda, '+');
+
+            for (int k = 1; k < n-1; k++) {
+                newCompElem = CompositeElement (newCompElem, *newComposition[k+1], lambda, '+');
+            }
+            newComposition.clear();
+            std::cout << newCompElem << std::endl;
+            newRow.push_back(std::move(newCompElem.clone()));
+            if (newRow.size() == n) {
+                newMatrix.push_back(std::move(newRow));
+            } }
+        }
+    }
+    return *this;
 }
+
+//    std::vector<std::vector<std::unique_ptr<Element>>> sumMatrix;
+//    for (int i = 0; i < n * n; ++i) {
+//        std::vector<std::unique_ptr<Element>> newRow;
+//        for (int j = 0; j < n; ++j) {
+//            for (int k = 1; k < n; ++k) {
+//                std::function<int(int, int)> lambda = [](int val1, int val2) { return val1 + val2; };
+//                CompositeElement newCompElem(*productMatrix[i][j], *productMatrix[i][k], lambda, '+');
+//                newRow.push_back(std::unique_ptr<Element>(new CompositeElement(newCompElem)));
+//            }
+//        }
+//        if (i == 0 || (i+1) % n == 0) {
+//            sumMatrix.push_back(std::move(newRow));
+//        }
+//    }
+    //return SymbolicSquareMatrix(sumMatrix,n);
+
+
+
+
+//Python script to create a 3d array of matrices that need to be added together
+//
+//vector3d = []
+//for x in range(n):
+//    vector3d.append([])
+//for j in range(n*n):
+//    vector = vector1[j]
+//    if j % n == 0 or j % n == n:
+//        vector3d[0].append(vector)
+//    else:
+//        vector3d[n - (j % n)].append(vector)
+//    j += 1

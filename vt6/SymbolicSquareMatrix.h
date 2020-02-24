@@ -6,6 +6,7 @@
 #include <ostream>
 #include <sstream>
 #include <memory>
+#include "Valuation.h"
 #include "Element.h"
 #include "IntElement.h"
 #include "VariableElement.h"
@@ -22,12 +23,12 @@
 /// create Concrete matrices.                          
 
 
-
 /**
  * \param n : amount of elements in each row / amount of rows
  * \param elements : stores the elements. Elements can be of type IntElement or VariableElement.
  */
 class SymbolicSquareMatrix {
+
 private:
     unsigned int n{0};
     std::vector<std::vector<std::unique_ptr<Element>>> elements{};
@@ -42,7 +43,9 @@ public:
     /// Turns string into the matrix and calculates how many elements are in each line to set n.
     /// \param m_string string that contains the matrix.
     SymbolicSquareMatrix(const std::string &m_string);
-    
+
+    SymbolicSquareMatrix(std::vector<std::vector<std::unique_ptr<Element>>> &matrix, unsigned int pN);
+
     /// Copy constructor.
     /// Loops through existing matrix, copies containers values creates new pointers to them and sets the n.
     ///\param matrix : existing matrix object

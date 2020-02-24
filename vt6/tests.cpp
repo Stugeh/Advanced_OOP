@@ -7,13 +7,35 @@
 #include "Valuation.h"
 
 int main() {
-    ConcreteSquareMatrix aff("[[1,2][3,4]]");
-    aff.transpose();
-    std::cout << aff << std::endl;
+    Valuation valMap;
+    std::pair<char, int> keyVal('a', 10);
+    valMap.insert(keyVal);
+    std::pair<char, int> keyVal1('b', 20);
+    valMap.insert(keyVal1);
+    std::pair<char, int> keyVal2('c', 30);
+    valMap.insert(keyVal2);
+    std::pair<char, int> keyVal3('d', 40);
+    valMap.insert(keyVal3);
+    std::pair<char, int> keyVal4('4', 50);
+    valMap.insert(keyVal);
+    std::pair<char, int> keyVal5('f', 60);
+    valMap.insert(keyVal1);
+    std::pair<char, int> keyVal6('g', 70);
+    valMap.insert(keyVal2);
+    std::pair<char, int> keyVal7('h', 80);
+    valMap.insert(keyVal3);
+    std::pair<char, int> keyVal8('i', 90);
+    valMap.insert(keyVal3);
 
-    SymbolicSquareMatrix axs("[[1,x][3,4]]");
-    SymbolicSquareMatrix ass = std::move(axs.transpose());
-    std::cout << ass;
+
+    SymbolicSquareMatrix axs("[[1,2,3][4,5,6][7,8,9]]");
+    SymbolicSquareMatrix ass("[[a,b,c][d,e,f][g,h,i]]");
+    SymbolicSquareMatrix dsa = ass * axs;
+    std::cout << dsa.toString() << std::endl;
+    dsa.evaluate(valMap);
+
+    ConcreteSquareMatrix afs = dsa.evaluate(valMap);
+    std::cout << afs;
 }
 
 
