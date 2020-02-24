@@ -17,26 +17,36 @@ int main() {
     std::pair<char, int> keyVal3('d', 40);
     valMap.insert(keyVal3);
     std::pair<char, int> keyVal4('e', 50);
-    valMap.insert(keyVal);
+    valMap.insert(keyVal4);
     std::pair<char, int> keyVal5('f', 60);
-    valMap.insert(keyVal1);
+    valMap.insert(keyVal5);
     std::pair<char, int> keyVal6('g', 70);
-    valMap.insert(keyVal2);
+    valMap.insert(keyVal6);
     std::pair<char, int> keyVal7('h', 80);
-    valMap.insert(keyVal3);
+    valMap.insert(keyVal7);
     std::pair<char, int> keyVal8('i', 90);
-    valMap.insert(keyVal3);
+    valMap.insert(keyVal8);
 
 
     SymbolicSquareMatrix axs("[[1,2,3][4,5,6][7,8,9]]");
     SymbolicSquareMatrix ass("[[a,b,c][d,e,f][g,h,i]]");
     SymbolicSquareMatrix dsa = ass * axs;
 
-    std::cout << dsa.toString() << std::endl;
+    std::cout << "axs:\n" << axs.toString() << std::endl << std::endl;
+    std::cout << "ass:\n" << ass.toString() << std::endl << std::endl;
+
+    std::cout << "Values: \n";
+    for (std::pair<char,int> pair: valMap) {
+        std::cout << "{" << pair.first << " = " << pair.second << "}\n";
+    }
+    std::cout << std::endl << std::endl;
+
+
+    std::cout << dsa.toString() << std::endl << std::endl;
     dsa.evaluate(valMap);
 
     ConcreteSquareMatrix afs = dsa.evaluate(valMap);
-    std::cout << afs;
+    std::cout << "The product of ass and axs:\n" << afs;
 }
 
 

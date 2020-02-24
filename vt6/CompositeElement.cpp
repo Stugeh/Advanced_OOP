@@ -33,6 +33,9 @@ std::unique_ptr<Element> CompositeElement::clone() const {
 }
 
 std::string CompositeElement::toString() const {
+    if(operand1->toString()[0] == '('){
+        return operand1->toString() + char_op + operand2->toString();
+    }
     return '(' + operand1->toString() + char_op + operand2->toString() + ')';
 }
 

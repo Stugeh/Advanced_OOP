@@ -172,7 +172,7 @@ std::ostream &operator<<(std::ostream &os, const SymbolicSquareMatrix &matrix) {
             }
             i++;
         }
-        os << "]" << std::endl;
+        os << "]";
     }
     os << "]";
     return os;
