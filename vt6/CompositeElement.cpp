@@ -4,13 +4,11 @@
 
 CompositeElement::CompositeElement(const Element &e1, const Element &e2, const std::function<int(int, int)> &op,
                                    char opc) {
-    try {
-        operand1 = std::unique_ptr<Element>(e1.clone());
-        operand2 = std::unique_ptr<Element>(e2.clone());
-        op_function = op;
-        char_op = opc;
-    }
-    catch (std::invalid_argument) {}
+    operand1 = std::unique_ptr<Element>(e1.clone());
+    operand2 = std::unique_ptr<Element>(e2.clone());
+    op_function = op;
+    char_op = opc;
+
 }
 
 CompositeElement::CompositeElement(const CompositeElement &e) {
