@@ -187,7 +187,7 @@ std::string SymbolicSquareMatrix::toString() const {
     oss << *this;
     return oss.str();
 }
-//FIXME
+
 ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation &valMap) const {
     std::vector<std::vector<std::unique_ptr<IntElement>>> newMatrix;
     int i = 0;
@@ -198,8 +198,7 @@ ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation &valMap) con
                 int num = elem->evaluate(valMap);
                 newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
             } catch (std::out_of_range) {
-                std::cout << std::endl << "element:" << std::endl << elem->toString() << std::endl
-                          << "isn't a defined value" << std::endl;
+                throw(std::out_of_range) "Value wasn't in the val map";
             }
         }
         newMatrix.push_back(std::move(newRow));
