@@ -92,6 +92,7 @@ public:
     ///
     friend std::ostream &operator<<(std::ostream &os, const Element &element);
 
+    friend bool operator==(const Element& e1, const Element& e2);
 };
 
 /// Used to input sum of two IntElements into a new IntElement 

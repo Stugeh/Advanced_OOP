@@ -32,6 +32,7 @@ int VariableElement::evaluate(const Valuation &valMap) const {
     return valMap.at(val);
 }
 
-bool VariableElement::operator==(const VariableElement &element) const {
-    return val == element.val;
-}
+//bool operator==(const Element &e1, const Element &e2){
+//    return e1.toString() == e2.toString();
+//}
+

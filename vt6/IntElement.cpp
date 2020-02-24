@@ -69,6 +69,9 @@ IntElement operator*(const IntElement &i, const IntElement &j) {
     return sum;
 }
 
+//bool operator==(const Element& e1, const Element& e2){
+//    return e1.toString() == e2.toString();
+//}
 
 
 

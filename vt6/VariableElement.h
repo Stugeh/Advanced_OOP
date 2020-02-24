@@ -55,7 +55,7 @@ public:
     /// Compares val and element.val if the value is the same return true
     /// \param element
     /// \return bool
-    bool operator==(const VariableElement &element) const;
+    friend bool operator==(const Element &e1, const Element &e2);
 
     /// friend needed to access val
     ///
