@@ -5302,14 +5302,14 @@ return @ desc; \
 // start catch_test_spec_parser.h
 
 #ifdef __clang__
-                                                                                                                        #pragma clang diagnostic push
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
 // start catch_test_spec.h
 
 #ifdef __clang__
-                                                                                                                        #pragma clang diagnostic push
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
@@ -6467,7 +6467,7 @@ namespace Catch {
     CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION
 #else // CATCH_CONFIG_DISABLE
 
-                                                                                                                        #define CATCH_REGISTER_REPORTER(name, reporterType)
+#define CATCH_REGISTER_REPORTER(name, reporterType)
 #define CATCH_REGISTER_LISTENER(listenerType)
 
 #endif // CATCH_CONFIG_DISABLE
@@ -6506,7 +6506,7 @@ namespace Catch {
 // start catch_reporter_console.h
 
 #if defined(_MSC_VER)
-                                                                                                                        #pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable:4061) // Not all labels are EXPLICITLY handled in switch
                               // Note that 4062 (not all labels are handled
                               // and default is missing) is enabled
@@ -7850,7 +7850,7 @@ namespace Catch {
 // start catch_impl.hpp
 
 #ifdef __clang__
-                                                                                                                        #pragma clang diagnostic push
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
 
@@ -8042,7 +8042,7 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
 
-                                                                                                                        #include <cassert>
+#include <cassert>
 #include <random>
 
 #if defined(CATCH_CONFIG_USE_ASYNC)
@@ -8342,25 +8342,25 @@ namespace Catch {
 #elif defined(CATCH_PLATFORM_IPHONE)
 
                                                                                                                         // use inline assembler
-    #if defined(__i386__) || defined(__x86_64__)
-        #define CATCH_TRAP()  __asm__("int $3")
-    #elif defined(__aarch64__)
-        #define CATCH_TRAP()  __asm__(".inst 0xd4200000")
-    #elif defined(__arm__)
-        #define CATCH_TRAP()  __asm__(".inst 0xe7f001f0")
-    #endif
+#if defined(__i386__) || defined(__x86_64__)
+#define CATCH_TRAP()  __asm__("int $3")
+#elif defined(__aarch64__)
+#define CATCH_TRAP()  __asm__(".inst 0xd4200000")
+#elif defined(__arm__)
+#define CATCH_TRAP()  __asm__(".inst 0xe7f001f0")
+#endif
 
 #elif defined(CATCH_PLATFORM_LINUX)
                                                                                                                         // If we can use inline assembler, do it because this allows us to break
     // directly at the location of the failing check instead of breaking inside
     // raise() called from it, i.e. one stack frame below.
-    #if defined(__GNUC__) && (defined(__i386) || defined(__x86_64))
-        #define CATCH_TRAP() asm volatile ("int $3") /* NOLINT */
-    #else // Fall back to the generic way.
-        #include <signal.h>
+#if defined(__GNUC__) && (defined(__i386) || defined(__x86_64))
+#define CATCH_TRAP() asm volatile ("int $3") /* NOLINT */
+#else // Fall back to the generic way.
+#include <signal.h>
 
-        #define CATCH_TRAP() raise(SIGTRAP)
-    #endif
+#define CATCH_TRAP() raise(SIGTRAP)
+#endif
 #elif defined(_MSC_VER)
 #define CATCH_TRAP() __debugbreak()
 #elif defined(__MINGW32__)
@@ -8385,7 +8385,7 @@ extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 #if defined(CATCH_PLATFORM_WINDOWS)
 
 #if !defined(NOMINMAX) && !defined(CATCH_CONFIG_NO_NOMINMAX)
-                                                                                                                        #  define CATCH_DEFINED_NOMINMAX
+#  define CATCH_DEFINED_NOMINMAX
 #  define NOMINMAX
 #endif
 #if !defined(WIN32_LEAN_AND_MEAN) && !defined(CATCH_CONFIG_NO_WIN32_LEAN_AND_MEAN)
@@ -8432,7 +8432,7 @@ extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 
 #elif defined ( CATCH_CONFIG_POSIX_SIGNALS )
 
-                                                                                                                        #include <signal.h>
+#include <signal.h>
 
 namespace Catch {
 
@@ -8840,13 +8840,13 @@ namespace Catch {
 
 // Use Catch's value for console width (store Clara's off to the side, if present)
 #ifdef CLARA_CONFIG_CONSOLE_WIDTH
-                                                                                                                        #define CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH
+#define CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH
 #undef CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH
 #endif
 #define CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH CATCH_CONFIG_CONSOLE_WIDTH-1
 
 #ifdef __clang__
-                                                                                                                        #pragma clang diagnostic push
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wweak-vtables"
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #pragma clang diagnostic ignored "-Wshadow"
@@ -8874,7 +8874,7 @@ namespace Catch {
 #ifndef CLARA_CONFIG_OPTIONAL_TYPE
 #ifdef __has_include
 #if __has_include(<optional>) && __cplusplus >= 201703L
-                                                                                                                        #include <optional>
+#include <optional>
 #define CLARA_CONFIG_OPTIONAL_TYPE std::optional
 #endif
 #endif
@@ -9304,7 +9304,7 @@ namespace Catch {
 
             inline auto isOptPrefix(char c) -> bool {
                 return c == '-'
-                       #ifdef CATCH_PLATFORM_WINDOWS
+#ifdef CATCH_PLATFORM_WINDOWS
                        || c == '/'
 #endif
                         ;
@@ -10169,7 +10169,7 @@ namespace Catch {
 
 // Restore Clara's value for console width, if present
 #ifdef CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH
-                                                                                                                        #define CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH
+#define CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH
 #undef CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH
 #endif
 
@@ -10530,7 +10530,7 @@ namespace Catch {
 // start catch_console_colour.cpp
 
 #if defined(__clang__)
-                                                                                                                        #    pragma clang diagnostic push
+#    pragma clang diagnostic push
 #    pragma clang diagnostic ignored "-Wexit-time-destructors"
 #endif
 
@@ -10668,7 +10668,7 @@ namespace Catch {
 
 #elif defined( CATCH_CONFIG_COLOUR_ANSI ) //////////////////////////////////////
 
-                                                                                                                        #include <unistd.h>
+#include <unistd.h>
 
 namespace Catch {
 namespace {
@@ -10869,7 +10869,7 @@ namespace Catch {
 
 // end catch_debug_console.h
 #if defined(CATCH_CONFIG_ANDROID_LOGWRITE)
-                                                                                                                        #include <android/log.h>
+#include <android/log.h>
 
     namespace Catch {
         void writeToDebugConsole( std::string const& text ) {
@@ -10900,7 +10900,7 @@ namespace Catch {
 
 #if defined(CATCH_PLATFORM_MAC) || defined(CATCH_PLATFORM_IPHONE)
 
-                                                                                                                        #  include <assert.h>
+#  include <assert.h>
 #  include <stdbool.h>
 #  include <sys/types.h>
 #  include <unistd.h>
@@ -10914,7 +10914,7 @@ namespace Catch {
 #endif
 
     namespace Catch {
-        #ifdef __apple_build_version__
+#ifdef __apple_build_version__
         // The following function is taken directly from the following technical note:
         // https://developer.apple.com/library/archive/qa/qa1361/_index.html
 
@@ -10950,17 +10950,17 @@ namespace Catch {
 
             return ( (info.kp_proc.p_flag & P_TRACED) != 0 );
         }
-        #else
+#else
         bool isDebuggerActive() {
             // We need to find another way to determine this for non-appleclang compilers on macOS
             return false;
         }
-        #endif
+#endif
     } // namespace Catch
 
 #elif defined(CATCH_PLATFORM_LINUX)
-                                                                                                                        #include <fstream>
-    #include <string>
+#include <fstream>
+#include <string>
 
     namespace Catch{
         // The standard POSIX way of detecting a debugger is to attempt to
@@ -11659,7 +11659,7 @@ namespace Catch {
 // start catch_leak_detector.cpp
 
 #ifdef CATCH_CONFIG_WINDOWS_CRTDBG
-                                                                                                                        #include <crtdbg.h>
+#include <crtdbg.h>
 
 namespace Catch {
 
@@ -12000,7 +12000,7 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_GLOBAL_NEXTAFTER)
 
-                                                                                                                            #if defined(__clang__)
+#if defined(__clang__)
 #pragma clang diagnostic push
 // The long double overload is currently unused
 #pragma clang diagnostic ignored "-Wunused-function"
@@ -12086,7 +12086,7 @@ namespace Catch {
             }
 
 #if defined(__clang__)
-                                                                                                                                    #pragma clang diagnostic push
+#pragma clang diagnostic push
 // Clang <3.5 reports on the default branch in the switch below
 #pragma clang diagnostic ignored "-Wunreachable-code"
 #endif
@@ -12532,9 +12532,9 @@ namespace Catch {
 
     private:
         std::FILE* m_file = nullptr;
-    #if defined(_MSC_VER)
+#if defined(_MSC_VER)
         char m_buffer[L_tmpnam] = { 0 };
-    #endif
+#endif
     };
 
     class OutputRedirect {
@@ -12569,14 +12569,14 @@ namespace Catch {
 #include <stdexcept>
 
 #if defined(CATCH_CONFIG_NEW_CAPTURE)
-                                                                                                                        #if defined(_MSC_VER)
-    #include <io.h>      //_dup and _dup2
-    #define dup _dup
-    #define dup2 _dup2
-    #define fileno _fileno
-    #else
-    #include <unistd.h>  // dup and dup2
-    #endif
+#if defined(_MSC_VER)
+#include <io.h>      //_dup and _dup2
+#define dup _dup
+#define dup2 _dup2
+#define fileno _fileno
+#else
+#include <unistd.h>  // dup and dup2
+#endif
 #endif
 
 namespace Catch {
@@ -12613,7 +12613,7 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_NEW_CAPTURE)
 
-                                                                                                                            #if defined(_MSC_VER)
+#if defined(_MSC_VER)
     TempFile::TempFile() {
         if (tmpnam_s(m_buffer)) {
             CATCH_RUNTIME_ERROR("Could not get a temp filename");
@@ -12690,11 +12690,11 @@ namespace Catch {
 } // namespace Catch
 
 #if defined(CATCH_CONFIG_NEW_CAPTURE)
-                                                                                                                        #if defined(_MSC_VER)
-    #undef dup
-    #undef dup2
-    #undef fileno
-    #endif
+#if defined(_MSC_VER)
+#undef dup
+#undef dup2
+#undef fileno
+#endif
 #endif
 // end catch_output_redirect.cpp
 // start catch_polyfills.cpp
@@ -12732,7 +12732,7 @@ namespace Catch {
     namespace {
 
 #if defined(_MSC_VER)
-                                                                                                                                #pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable:4146) // we negate uint32 during the rotate
 #endif
 
@@ -13362,17 +13362,17 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
                                                                                                                             void RunContext::benchmarkPreparing(std::string const& name) {
-		m_reporter->benchmarkPreparing(name);
-	}
+        m_reporter->benchmarkPreparing(name);
+    }
     void RunContext::benchmarkStarting( BenchmarkInfo const& info ) {
         m_reporter->benchmarkStarting( info );
     }
     void RunContext::benchmarkEnded( BenchmarkStats<> const& stats ) {
         m_reporter->benchmarkEnded( stats );
     }
-	void RunContext::benchmarkFailed(std::string const & error) {
-		m_reporter->benchmarkFailed(error);
-	}
+    void RunContext::benchmarkFailed(std::string const & error) {
+        m_reporter->benchmarkFailed(error);
+    }
 #endif // CATCH_CONFIG_ENABLE_BENCHMARKING
 
     void RunContext::pushScopedMessage(MessageInfo const &message) {
@@ -14807,7 +14807,7 @@ namespace Catch {
 #include <sstream>
 
 #if defined(__clang__)
-                                                                                                                        #    pragma clang diagnostic push
+#    pragma clang diagnostic push
 #    pragma clang diagnostic ignored "-Wexit-time-destructors"
 #endif
 
@@ -15468,7 +15468,7 @@ namespace Catch {
 // start catch_tostring.cpp
 
 #if defined(__clang__)
-                                                                                                                        #    pragma clang diagnostic push
+#    pragma clang diagnostic push
 #    pragma clang diagnostic ignored "-Wexit-time-destructors"
 #    pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
@@ -15629,7 +15629,7 @@ namespace Catch {
 #endif
 
 #if defined(CATCH_CONFIG_CPP17_BYTE)
-                                                                                                                            #include <cstddef>
+#include <cstddef>
 std::string StringMaker<std::byte>::convert(std::byte value) {
     return ::Catch::Detail::stringify(std::to_integer<unsigned long long>(value));
 }
@@ -16562,13 +16562,13 @@ namespace Catch {
 #include <cstdio>
 
 #if defined(_MSC_VER)
-                                                                                                                        #pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable:4061) // Not all labels are EXPLICITLY handled in switch
  // Note that 4062 (not all labels are handled and default is missing) is enabled
 #endif
 
 #if defined(__clang__)
-                                                                                                                        #  pragma clang diagnostic push
+#  pragma clang diagnostic push
 // For simplicity, benchmarking-only helpers are always enabled
 #  pragma clang diagnostic ignored "-Wunused-function"
 #endif
@@ -16990,19 +16990,19 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
                                                                                                                             void ConsoleReporter::benchmarkPreparing(std::string const& name) {
-	lazyPrintWithoutClosingBenchmarkTable();
+    lazyPrintWithoutClosingBenchmarkTable();
 
-	auto nameCol = Column(name).width(static_cast<std::size_t>(m_tablePrinter->columnInfos()[0].width - 2));
+    auto nameCol = Column(name).width(static_cast<std::size_t>(m_tablePrinter->columnInfos()[0].width - 2));
 
-	bool firstLine = true;
-	for (auto line : nameCol) {
-		if (!firstLine)
-			(*m_tablePrinter) << ColumnBreak() << ColumnBreak() << ColumnBreak();
-		else
-			firstLine = false;
+    bool firstLine = true;
+    for (auto line : nameCol) {
+        if (!firstLine)
+            (*m_tablePrinter) << ColumnBreak() << ColumnBreak() << ColumnBreak();
+        else
+            firstLine = false;
 
-		(*m_tablePrinter) << line << ColumnBreak();
-	}
+        (*m_tablePrinter) << line << ColumnBreak();
+    }
 }
 
 void ConsoleReporter::benchmarkStarting(BenchmarkInfo const& info) {
@@ -17029,7 +17029,7 @@ void ConsoleReporter::benchmarkEnded(BenchmarkStats<> const& stats) {
 }
 
 void ConsoleReporter::benchmarkFailed(std::string const& error) {
-	Colour colour(Colour::Red);
+    Colour colour(Colour::Red);
     (*m_tablePrinter)
         << "Benchmark failed (" << error << ')'
         << ColumnBreak() << RowBreak();
@@ -17578,11 +17578,11 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
                                                                                                                             void ListeningReporter::benchmarkPreparing( std::string const& name ) {
-		for (auto const& listener : m_listeners) {
-			listener->benchmarkPreparing(name);
-		}
-		m_reporter->benchmarkPreparing(name);
-	}
+        for (auto const& listener : m_listeners) {
+            listener->benchmarkPreparing(name);
+        }
+        m_reporter->benchmarkPreparing(name);
+    }
     void ListeningReporter::benchmarkStarting( BenchmarkInfo const& benchmarkInfo ) {
         for ( auto const& listener : m_listeners ) {
             listener->benchmarkStarting( benchmarkInfo );
@@ -17596,12 +17596,12 @@ namespace Catch {
         m_reporter->benchmarkEnded( benchmarkStats );
     }
 
-	void ListeningReporter::benchmarkFailed( std::string const& error ) {
-		for (auto const& listener : m_listeners) {
-			listener->benchmarkFailed(error);
-		}
-		m_reporter->benchmarkFailed(error);
-	}
+    void ListeningReporter::benchmarkFailed( std::string const& error ) {
+        for (auto const& listener : m_listeners) {
+            listener->benchmarkFailed(error);
+        }
+        m_reporter->benchmarkFailed(error);
+    }
 #endif // CATCH_CONFIG_ENABLE_BENCHMARKING
 
     void ListeningReporter::testRunStarting(TestRunInfo const &testRunInfo) {
@@ -17691,7 +17691,7 @@ namespace Catch {
 // start catch_reporter_xml.cpp
 
 #if defined(_MSC_VER)
-                                                                                                                        #pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable:4061) // Not all labels are EXPLICITLY handled in switch
                               // Note that 4062 (not all labels are handled
                               // and default is missing) is enabled

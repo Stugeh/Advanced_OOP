@@ -34,7 +34,7 @@ private:
     std::vector<std::vector<std::unique_ptr<Element>>> elements{};
 
 public:
-    
+
     ///
     ///default constructor makes an empty matrix.
     SymbolicSquareMatrix();
@@ -73,11 +73,11 @@ public:
     /// \return : new SymbolicSquareMatrix object
     SymbolicSquareMatrix transpose() const;
 
-    SymbolicSquareMatrix operator+(const SymbolicSquareMatrix& matrix) const;
+    SymbolicSquareMatrix operator+(const SymbolicSquareMatrix &matrix) const;
 
-    SymbolicSquareMatrix operator-(const SymbolicSquareMatrix& matrix) const;
+    SymbolicSquareMatrix operator-(const SymbolicSquareMatrix &matrix) const;
 
-    SymbolicSquareMatrix operator*(const SymbolicSquareMatrix& matrix) const;
+    SymbolicSquareMatrix operator*(const SymbolicSquareMatrix &matrix) const;
 
     /// Compares 2 SymbolicSquareMatrix objects by calling their toString methods
     /// \param matrix

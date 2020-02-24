@@ -29,4 +29,4 @@ add_executable(
         SymbolicSquareMatrix.h
 
         catch.hpp
-        )
+)

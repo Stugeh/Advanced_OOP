@@ -16,7 +16,7 @@ int main() {
     valMap.insert(keyVal2);
     std::pair<char, int> keyVal3('d', 40);
     valMap.insert(keyVal3);
-    std::pair<char, int> keyVal4('4', 50);
+    std::pair<char, int> keyVal4('e', 50);
     valMap.insert(keyVal);
     std::pair<char, int> keyVal5('f', 60);
     valMap.insert(keyVal1);
@@ -31,6 +31,7 @@ int main() {
     SymbolicSquareMatrix axs("[[1,2,3][4,5,6][7,8,9]]");
     SymbolicSquareMatrix ass("[[a,b,c][d,e,f][g,h,i]]");
     SymbolicSquareMatrix dsa = ass * axs;
+
     std::cout << dsa.toString() << std::endl;
     dsa.evaluate(valMap);
 

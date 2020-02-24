@@ -32,7 +32,7 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
         if (c == ']') {
             if (rowCount > 0) {
                 elements.push_back(std::move(newRow));
-                if(prevCount != 0 && elementCount != prevCount){
+                if (prevCount != 0 && elementCount != prevCount) {
                     throw std::invalid_argument("Uneven rows");
                 }
                 newRow.clear();
@@ -61,7 +61,7 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
     }
     c = 'x';
     input >> c;
-    if(c != ']'){
+    if (c != ']') {
         throw std::invalid_argument("The matrix doesn't close");
     }
     if (input.peek() != EOF) {
@@ -74,7 +74,8 @@ ConcreteSquareMatrix::ConcreteSquareMatrix(const std::string &str) {
     n = rowCount;
 }
 
-ConcreteSquareMatrix::ConcreteSquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>> matrix, unsigned int pN) {
+ConcreteSquareMatrix::ConcreteSquareMatrix(std::vector<std::vector<std::unique_ptr<IntElement>>> matrix,
+                                           unsigned int pN) {
     elements = std::move(matrix);
     n = pN;
 }
