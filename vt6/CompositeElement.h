@@ -26,6 +26,8 @@ public:
     std::string toString() const override;
 
     int evaluate(const Valuation &valMap) const override;
+
+    friend bool operator==(const Element &e1, const Element &e2);
 };
 
 #endif //ET6_COMPOSITEELEMENT_H
