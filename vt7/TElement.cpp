@@ -1,7 +1,11 @@
 #include "TElement.h"
 
-template class TElement<int>;
-template class TElement<char>;
+template
+class TElement<int>;
+
+template
+class TElement<char>;
+
 using IntElement = TElement<int>;
 using VariableElement = TElement<char>;
 
@@ -27,5 +31,53 @@ std::string TElement<T>::toString() const {
     return ss.str();
 }
 
+template<typename T>
+T TElement<T>::getVal() const {
+    return val;
+}
 
+template<typename T>
+void TElement<T>::setVal(T pVal) {
+    val = pVal;
+}
 
+template<>
+IntElement &TElement<int>::operator+=(const IntElement &element) {
+    val += element.getVal();
+    return *this;
+}
+
+template<>
+IntElement &TElement<int>::operator-=(const IntElement &element) {
+    val -= element.getVal();
+    return *this;
+}
+
+template<>
+IntElement &TElement<int>::operator*=(const IntElement &element) {
+    val *= element.getVal();
+    return *this;
+}
+
+template<typename T>
+bool TElement<T>::operator==(const TElement<T> &element) const {
+    return val == element.getVal();
+}
+
+TElement<int> operator+(const TElement<int> &element1, const TElement<int> &element2) {
+    IntElement sum{element1};
+    sum += element2;
+    return sum;
+}
+
+TElement<int> operator-(const TElement<int> &element1, const TElement<int> &element2) {
+    IntElement sum{element1};
+    sum -= element2;
+    return sum;
+}
+
+TElement<int> operator*(const TElement<int> &element1, const TElement<int> &element2) {
+    IntElement sum{element1};
+    sum *= element2;
+    return sum;
+}

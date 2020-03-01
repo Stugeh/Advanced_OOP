@@ -198,7 +198,7 @@ ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation &valMap) con
                 int num = elem->evaluate(valMap);
                 newRow.push_back(std::unique_ptr<IntElement>(new IntElement(num)));
             } catch (std::out_of_range) {
-                throw(std::out_of_range) "Value wasn't in the val map";
+                throw (std::out_of_range) "Value wasn't in the val map";
             }
         }
         newMatrix.push_back(std::move(newRow));

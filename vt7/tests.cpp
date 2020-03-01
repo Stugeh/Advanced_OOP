@@ -2,18 +2,29 @@
 //#include "catch.hpp"
 
 #include <iostream>
-#include "ConcreteSquareMatrix.h"
 #include "Element.h"
-#include "SymbolicSquareMatrix.h"
 #include "Valuation.h"
 #include "TElement.h"
+#include "ElemSqrMtrx.h"
 
+
+using IntElement = TElement<int>;
+using VariableElement = TElement<char>;
+using ConcreteSquareMatrix = ElemSqrMtrx<IntElement>;
+using SymbolicSquareMatrix = ElemSqrMtrx<Element>;
 
 int main() {
-TElement<int>asd(4);
-TElement<char>ass('a');
-std::cout << ass;
-
+    TElement<int> asd(4);
+    TElement<int> ass(5);
+    //std::cout << ass;
+    if (asd == ass) {
+        std::cout << "true" << std::endl;
+    }
+    TElement<int> asdd = asd * ass;
+    std::cout << asdd;
+    ConcreteSquareMatrix a{};
+    SymbolicSquareMatrix as("[[1,x,3][4,5,6][7,8,9]]");
+    std::cout << "done";
 
 
 

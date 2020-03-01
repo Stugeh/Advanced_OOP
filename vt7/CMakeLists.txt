@@ -17,6 +17,8 @@ add_executable(
         CompositeElement.cpp
         CompositeElement.h
 
+        ElemSqrMtrx.cpp
+        ElemSqrMtrx.h
 
         Valuation.h
 
