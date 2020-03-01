@@ -40,22 +40,22 @@ public:
 
     bool operator==(const TElement &element) const;
 
-    friend TElement<int> operator+(const TElement<int> &element1, const TElement<int> &element2);
+    friend TElement<int> operator+(const Element &element1, const Element &element2);
 
-    friend TElement<int> operator-(const TElement<int> &element1, const TElement<int> &element2);
+    friend TElement<int> operator-(const Element &element1, const Element &element2);
 
-    friend TElement<int> operator*(const TElement<int> &element1, const TElement<int> &element2);
+    friend TElement<int> operator*(const Element &element1, const Element &element2);
 
     friend std::ostream &operator<<(std::ostream &os, const Element &element);
 
     friend bool operator==(const Element &e1, const Element &e2);
 };
 
-TElement<int> operator+(const TElement<int> &element1, const TElement<int> &element2);
+TElement<int> operator+(const Element &element1, const Element &element2);
 
-TElement<int> operator-(const TElement<int> &element1, const TElement<int> &element2);
+TElement<int> operator-(const Element &element1, const Element &element2);
 
-TElement<int> operator*(const TElement<int> &element1, const TElement<int> &element2);
+TElement<int> operator*(const Element &element1, const Element &element2);
 
 std::ostream &operator<<(std::ostream &os, const Element &element);
 

@@ -47,3 +47,28 @@ template<typename T>
 bool ElemSqrMtrx<T>::operator==(const ElemSqrMtrx &matrix) const {
     return this->toString() == matrix.toString();
 }
+
+template<typename T>
+ElemSqrMtrx<T> &ElemSqrMtrx<T>::operator+=(const ElemSqrMtrx<T> &matrix) {
+    if (n != matrix.n) {
+        throw std::domain_error("Dimensions don't match");
+    }
+
+    int i = 0;
+    std::vector<std::vector<std::unique_ptr<IntElement>>> sumMatrix;
+    for (auto &row : elements) {
+        std::vector<std::unique_ptr<IntElement>> newRow;
+        int j = 0;
+        for (auto &elem : row) {
+            T value = elem + matrix.elements[i][j];
+            newRow.push_back(std::unique_ptr<IntElement>(new IntElement(value)));
+            j++;
+        }
+        sumMatrix.push_back(std::move(newRow));
+        i++;
+    }
+    elements = std::move(sumMatrix);
+    return *this;
+}
+
+

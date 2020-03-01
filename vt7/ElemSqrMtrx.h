@@ -28,7 +28,7 @@ public:
     ElemSqrMtrx(const std::string &str);
     ElemSqrMtrx(const ElemSqrMtrx &matrix);
     ElemSqrMtrx(const ElemSqrMtrx &&matrix);
-    ElemSqrMtrx(std::vector<std::vector<std::unique_ptr<Element>>> &matrix, unsigned int pN);
+    ElemSqrMtrx(T &matrix, unsigned int pN);
     ~ElemSqrMtrx()= default;
 
     ElemSqrMtrx &operator=(const ElemSqrMtrx &matrix);
@@ -37,6 +37,9 @@ public:
     ElemSqrMtrx<T> transpose() const;
 
     bool operator==(const ElemSqrMtrx &matrix)const;
+    ElemSqrMtrx<T> &operator+=(const ElemSqrMtrx<T> &matrix);
+//    ConcreteSquareMatrix &operator-=(const ElemSqrMtrx<IntElement> &matrix);
+//    ConcreteSquareMatrix &operator*=(const ElemSqrMtrx<IntElement> &matrix);
 };
 
 template<typename T>
@@ -123,7 +126,7 @@ ElemSqrMtrx<T>::ElemSqrMtrx(const std::string &str) {
 }
 
 template<typename T>
-ElemSqrMtrx<T>::ElemSqrMtrx(std::vector<std::vector<std::unique_ptr<Element>>> &matrix, unsigned int pN) {
+ElemSqrMtrx<T>::ElemSqrMtrx(T &matrix, unsigned int pN) {
     elements = std::move(matrix);
     n = pN;
 }

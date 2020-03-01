@@ -22,8 +22,9 @@ int main() {
     }
     TElement<int> asdd = asd * ass;
     std::cout << asdd;
-    ConcreteSquareMatrix a{};
-    SymbolicSquareMatrix as("[[1,x,3][4,5,6][7,8,9]]");
+    ConcreteSquareMatrix a("[[1,2,3][4,5,6][7,8,9]]");
+    ConcreteSquareMatrix as("[[1,2,3][4,5,6][7,8,9]]");
+    a += as;
     std::cout << "done";
 
 

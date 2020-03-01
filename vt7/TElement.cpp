@@ -64,20 +64,23 @@ bool TElement<T>::operator==(const TElement<T> &element) const {
     return val == element.getVal();
 }
 
-TElement<int> operator+(const TElement<int> &element1, const TElement<int> &element2) {
-    IntElement sum{element1};
+template<typename T>
+IntElement operator+(const Element &element1, const Element &element2) {
+    TElement<T> sum{element1};
     sum += element2;
     return sum;
 }
 
-TElement<int> operator-(const TElement<int> &element1, const TElement<int> &element2) {
-    IntElement sum{element1};
+template<typename T>
+IntElement operator-(const Element &element1, const Element &element2) {
+    TElement<T> sum{element1};
     sum -= element2;
     return sum;
 }
 
-TElement<int> operator*(const TElement<int> &element1, const TElement<int> &element2) {
-    IntElement sum{element1};
+template<typename T>
+IntElement operator*(const TElement<int> &element1, const TElement<int> &element2) {
+    TElement<T> sum{element1};
     sum *= element2;
     return sum;
 }
